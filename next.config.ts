@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 
+const githubPages = process.env.GITHUB_PAGES === "true";
+const basePath = githubPages ? "/website-efarda" : "";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    agentFeedback: true,
-  },
-  cacheComponents: true,
-  partialPrefetching: true,
+  ...(githubPages ? { output: "export", trailingSlash: true } : {}),
+  basePath,
+  env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  images: { unoptimized: githubPages },
+  experimental: { agentFeedback: true },
+  cacheComponents: !githubPages,
+  partialPrefetching: !githubPages,
   turbopack: {
     rules: {
       "*.css": {

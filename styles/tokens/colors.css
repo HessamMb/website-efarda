@@ -1,0 +1,66 @@
+:root {
+  color-scheme: light;
+  --brand-primary: #16835b;
+  --brand-deep: #103f32;
+
+  --text-primary: #243c33;
+  --text-secondary: #687c72;
+  --text-inverse: #ffffff;
+  --text-inverse-muted: #c9e1d4;
+
+  --border-default: #dce8df;
+  --surface-subtle: #f5f8f5;
+  --surface-mint: #eaf5ee;
+  --surface-device: #142c24;
+  --surface-gradient-end: #edf6f0;
+
+  --accent-soft: #b7ddc6;
+  --asset-neutral: #d9d9d9;
+  --asset-logo-neutral: #666666;
+
+  --overlay-quick-divider: #ffffff30;
+  --overlay-footer-divider: #ffffff24;
+  --overlay-contact-outline: #ffffff80;
+  --overlay-horizon: #ffffff05;
+  --overlay-halo: #ffffff08;
+
+  --background: #ffffff;
+  --foreground: var(--text-primary);
+  --surface: #ffffff;
+  --surface-muted: var(--surface-mint);
+  --muted-foreground: var(--text-secondary);
+  --border: var(--border-default);
+  --primary: var(--brand-primary);
+  --primary-foreground: var(--text-inverse);
+}
+
+@theme inline {
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-deep: var(--brand-deep);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-inverse-muted: var(--text-inverse-muted);
+  --color-border-default: var(--border-default);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-mint: var(--surface-mint);
+  --color-surface-device: var(--surface-device);
+  --color-surface-gradient-end: var(--surface-gradient-end);
+  --color-accent-soft: var(--accent-soft);
+  --color-asset-neutral: var(--asset-neutral);
+  --color-asset-logo-neutral: var(--asset-logo-neutral);
+  --color-overlay-quick-divider: var(--overlay-quick-divider);
+  --color-overlay-footer-divider: var(--overlay-footer-divider);
+  --color-overlay-contact-outline: var(--overlay-contact-outline);
+  --color-overlay-horizon: var(--overlay-horizon);
+  --color-overlay-halo: var(--overlay-halo);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+}

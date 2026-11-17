@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ارتباط فردا — Website
 
-## Getting Started
+Responsive Persian homepage built with Next.js, React, TypeScript, Tailwind CSS, and the local Peyda font. Layouts follow the supplied desktop, 768px tablet, and 390px mobile design references.
 
-First, run the development server:
+- Live demo: https://hessammb.github.io/website-efarda/
+- Repository: https://github.com/HessamMb/website-efarda
 
-```bash
+## Local development
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Production build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## GitHub Pages
 
-## Learn More
+The workflow in `.github/workflows/pages.yml` builds and deploys every push to `main`. To generate the same static output locally:
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+GITHUB_PAGES=true npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This produces `out/` with `/website-efarda` as the base path. Images are served as static files; no Next.js server is required by the demo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The homepage includes a responsive navigation menu, image slider, reading tabs, and FAQ accordions. Search and product links are presentation/demo navigation, not integrations with production services.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Image crops come from the supplied design references; see `public/images/home/README.md`. This repository does not grant additional rights to the brand, font, or artwork.
