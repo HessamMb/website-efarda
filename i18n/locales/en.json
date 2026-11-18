@@ -160,5 +160,7 @@
   "news.sourceName": "Ertebat Farda Holding news",
   "news.summaryNote": "News summary. Read the original post on LinkedIn.",
   "news.companySource": "Official company page on LinkedIn",
-  "news.originalSource": "Original post on LinkedIn"
+  "news.originalSource": "Original post on LinkedIn",
+  "news.photoCount_one": "{{number}} photo",
+  "news.photoCount_other": "{{number}} photos"
 }

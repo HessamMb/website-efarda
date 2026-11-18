@@ -95,7 +95,10 @@ function Gallery({
             {image}
             <span className="news-photo-badge">
               <Images size={14} />
-              {t("news.photoCount", { number: number(images.length) })}
+              {t("news.photoCount", {
+                count: images.length,
+                number: number(images.length),
+              })}
             </span>
           </button>
         ) : (
