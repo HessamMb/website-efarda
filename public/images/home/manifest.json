@@ -1,0 +1,72 @@
+{
+  "building": {
+    "width": 896,
+    "height": 1200,
+    "nodeId": "2465:11095"
+  },
+  "hero": {
+    "width": 928,
+    "height": 1152,
+    "nodeId": "2465:11104"
+  },
+  "business": {
+    "width": 1376,
+    "height": 768,
+    "nodeId": "2465:11152"
+  },
+  "shopping": {
+    "width": 1376,
+    "height": 768,
+    "nodeId": "2465:11160"
+  },
+  "payment": {
+    "width": 1376,
+    "height": 768,
+    "nodeId": "2465:11168"
+  },
+  "everyday": {
+    "width": 928,
+    "height": 1152,
+    "nodeId": "2465:11192"
+  },
+  "flowers": {
+    "width": 928,
+    "height": 1152,
+    "nodeId": "2465:11195"
+  },
+  "solutions": {
+    "width": 928,
+    "height": 1152,
+    "nodeId": "2465:11212"
+  },
+  "journal": {
+    "width": 928,
+    "height": 1152,
+    "nodeId": "2465:11251"
+  },
+  "app": {
+    "width": 1024,
+    "height": 1024,
+    "nodeId": "2465:11276"
+  },
+  "portrait1": {
+    "width": 1024,
+    "height": 1024,
+    "nodeId": "2465:11296"
+  },
+  "portrait2": {
+    "width": 1024,
+    "height": 1024,
+    "nodeId": "2465:11297"
+  },
+  "portrait3": {
+    "width": 1024,
+    "height": 1024,
+    "nodeId": "2465:11299"
+  },
+  "portrait4": {
+    "width": 1024,
+    "height": 1024,
+    "nodeId": "2465:11300"
+  }
+}

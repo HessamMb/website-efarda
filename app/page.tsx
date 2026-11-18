@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import homeImages from "@/public/images/home/manifest.json";
 import {
   ArrowLeft,
   ArrowUp,
@@ -80,12 +81,18 @@ function Photo({
   className?: string;
   eager?: boolean;
 }) {
+  const image = homeImages[name as keyof typeof homeImages];
+  const sizes = name.startsWith("portrait")
+    ? "(max-width: 599px) 45vw, 164px"
+    : "(max-width: 599px) calc(100vw - 40px), (max-width: 1099px) 55vw, 400px";
   return (
     <Image
       src={assetPath(`/images/home/${name}.webp`)}
       alt={alt}
-      width={600}
-      height={600}
+      width={image.width}
+      height={image.height}
+      sizes={sizes}
+      quality={90}
       loading={eager ? "eager" : "lazy"}
       className={`photo ${className}`}
     />
@@ -228,23 +235,15 @@ export default function Home() {
             </a>
             <div className="anniversary">
               <div className="building">
-                <picture>
-                  <source
-                    media="(max-width: 599px)"
-                    srcSet={assetPath("/images/home/building-mobile.webp")}
-                  />
-                  <source
-                    media="(max-width: 1099px)"
-                    srcSet={assetPath("/images/home/building-tablet.webp")}
-                  />
-                  <img
-                    src={assetPath("/images/home/building.webp")}
-                    alt="۱۵ سال تجربه ارتباط فردا؛ رو به افق‌های تازه"
-                    width="216"
-                    height="302"
-                    className="photo"
-                  />
-                </picture>
+                <Photo name="building" alt="نمای معماری ساختمان ارتباط فردا" />
+                <div className="anniversary-label">
+                  <b>۱۵</b>
+                  <strong>
+                    سال تجربه؛ رو به
+                    <br />
+                    افق‌های تازه
+                  </strong>
+                </div>
               </div>
               <div className="slider-controls">
                 <button

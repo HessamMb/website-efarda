@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   ...(githubPages ? { output: "export", trailingSlash: true } : {}),
   basePath,
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
-  images: { unoptimized: githubPages },
+  images: { unoptimized: githubPages, qualities: [75, 90] },
   experimental: { agentFeedback: true },
   cacheComponents: !githubPages,
   partialPrefetching: !githubPages,
