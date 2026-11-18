@@ -129,9 +129,9 @@ small {
   gap: 20px;
   align-items: center;
 }
-.language span {
-  border-right: 1px solid #d8e6de;
-  padding-right: 20px;
+.language .language-switch {
+  border-inline-start: 1px solid #d8e6de;
+  padding-inline-start: 20px;
 }
 .header-main {
   display: flex;
@@ -217,7 +217,7 @@ small {
   display: flex;
   gap: 40px;
   align-items: center;
-  direction: rtl;
+  direction: inherit;
 }
 .hero-main-photo {
   width: 366px;
@@ -251,7 +251,7 @@ small {
   background: var(--deep);
   color: #fff;
   border-radius: 6px;
-  text-align: right;
+  text-align: start;
   padding: 20px;
 }
 .anniversary-label b {
@@ -321,7 +321,7 @@ small {
   align-items: center;
   gap: 20px;
   padding: 8px 24px;
-  border-right: 1px solid #ffffff25;
+  border-inline-start: 1px solid #ffffff25;
 }
 .quick-grid strong,
 .footer-shortcuts strong {
@@ -537,7 +537,7 @@ small {
   display: grid;
   place-items: center;
   overflow: hidden;
-  direction: rtl;
+  direction: inherit;
   background: radial-gradient(
     ellipse at bottom,
     #ffffff05 65%,
@@ -738,7 +738,7 @@ small {
   margin-top: 12px;
 }
 .contact .button {
-  margin-right: auto;
+  margin-inline-start: auto;
   white-space: nowrap;
 }
 .button.outline {
@@ -830,7 +830,7 @@ footer {
     width: 622px;
   }
   .product-grid {
-    direction: rtl;
+    direction: inherit;
   }
 }
 @media (min-width: 600px) and (max-width: 1099px) {
@@ -910,7 +910,7 @@ footer {
     gap: 24px;
   }
   .product-grid article {
-    direction: rtl;
+    direction: inherit;
     padding: 0 !important;
   }
   .product-grid .photo {
@@ -946,7 +946,7 @@ footer {
     font-size: 26px;
   }
   .solutions-end {
-    text-align: right;
+    text-align: start;
   }
   .journal {
     padding-top: 58px;
@@ -1052,7 +1052,7 @@ footer {
     margin-top: 16px;
   }
   .footer-brand img {
-    margin-right: 0;
+    margin-inline-start: 0;
   }
   .footer-column {
     margin-top: 10px;
@@ -1075,13 +1075,13 @@ footer {
     height: 29px;
   }
   .top-links,
-  .language > a {
+  .language > a:not(.language-switch) {
     display: none;
   }
   .topbar > .container {
     justify-content: flex-end;
   }
-  .language span {
+  .language .language-switch {
     border: 0;
     padding: 0;
     font-size: 10px;
@@ -1318,7 +1318,7 @@ footer {
     margin-bottom: 18px;
   }
   .solutions-end {
-    text-align: right;
+    text-align: start;
   }
   .solutions-end h4 {
     font-size: 16px;
@@ -1651,10 +1651,10 @@ footer {
   .quick-grid > a:nth-child(4) {
     order: 3;
   }
-  .language > a {
+  .language > a:not(.language-switch) {
     display: none;
   }
-  .language span {
+  .language .language-switch {
     border: 0;
   }
 }
@@ -1670,5 +1670,86 @@ footer {
   }
   .solutions::after {
     bottom: -80px;
+  }
+}
+
+/* Both locales share the same layout; text and controls follow document direction. */
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  font-weight: 600;
+}
+html[dir="ltr"] body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.75;
+}
+html[dir="rtl"] .product-grid article {
+  direction: rtl;
+}
+html[dir="ltr"] .product-grid,
+html[dir="ltr"] .product-grid article {
+  direction: ltr;
+}
+html[dir="ltr"] .arrow-link > svg,
+html[dir="ltr"] .hero-main-photo > div > svg {
+  transform: scaleX(-1);
+}
+html[dir="ltr"] .anniversary-label {
+  padding: 16px;
+}
+html[dir="ltr"] .anniversary-label strong {
+  font-size: 14px;
+  line-height: 1.5;
+}
+html[dir="ltr"] .about-copy {
+  max-width: 640px;
+}
+html[dir="ltr"] .hero h1 {
+  font-size: 44px;
+  line-height: 1.45;
+}
+html[dir="ltr"] .values strong {
+  max-width: 150px;
+  white-space: normal;
+}
+html[dir="ltr"] .phone h3 {
+  font-size: 18px;
+}
+@media (min-width: 600px) and (max-width: 1099px) {
+  html[dir="ltr"] .hero h1 {
+    font-size: 36px;
+  }
+  html[dir="ltr"] .about-copy {
+    max-width: none;
+  }
+}
+@media (max-width: 599px) {
+  .mobile-toggle {
+    right: auto;
+    inset-inline-start: 0;
+  }
+  html[dir="ltr"] .hero h1 {
+    font-size: 32px;
+  }
+  html[dir="ltr"] .about h2 {
+    font-size: 25px;
+  }
+  html[dir="ltr"] .values {
+    gap: 10px;
+  }
+  html[dir="ltr"] .values > div {
+    flex: 1;
+    min-width: 0;
+  }
+  html[dir="ltr"] .values strong {
+    font-size: 10px;
+  }
+  html[dir="ltr"] .tabs {
+    gap: 12px;
+  }
+  html[dir="ltr"] .tabs button {
+    font-size: 11px;
+    white-space: normal;
   }
 }
