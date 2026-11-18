@@ -1,0 +1,46 @@
+{
+  "finex-booth": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-meetings": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-visit": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-discussion": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-lending": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-roundtable": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-partnerships": {
+    "width": 1280,
+    "height": 853
+  },
+  "finex-attendees": {
+    "width": 1280,
+    "height": 853
+  },
+  "financial-event-speaker": {
+    "width": 1280,
+    "height": 853
+  },
+  "ceo-appointment": {
+    "width": 800,
+    "height": 534
+  },
+  "ceo-appointment-team": {
+    "width": 800,
+    "height": 318
+  }
+}

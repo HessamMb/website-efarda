@@ -4,7 +4,8 @@ import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { LocaleProvider, LanguageSwitch, type Locale } from "@/i18n/provider";
 import Image from "next/image";
-import homeImages from "@/public/images/home/manifest.json";
+import { Photo, LinkArrow } from "@/components/home-ui";
+import JournalSection from "@/components/journal/journal-section";
 import {
   ArrowLeft,
   ArrowUp,
@@ -116,50 +117,6 @@ function getContent(translate: TFunction) {
   ];
   return { products, quick, footerQuick };
 }
-function Photo({
-  name,
-  alt,
-  className = "",
-  eager = false,
-}: {
-  name: string;
-  alt: string;
-  className?: string;
-  eager?: boolean;
-}) {
-  const image = homeImages[name as keyof typeof homeImages];
-  const sizes = name.startsWith("portrait")
-    ? "(max-width: 599px) 45vw, 164px"
-    : "(max-width: 599px) calc(100vw - 40px), (max-width: 1099px) 55vw, 400px";
-  return (
-    <Image
-      src={assetPath(`/images/home/${name}.webp`)}
-      alt={alt}
-      width={image.width}
-      height={image.height}
-      sizes={sizes}
-      quality={90}
-      loading={eager ? "eager" : "lazy"}
-      className={`photo ${className}`}
-    />
-  );
-}
-function LinkArrow({
-  children,
-  href,
-  className = "",
-}: {
-  children: React.ReactNode;
-  href: string;
-  className?: string;
-}) {
-  return (
-    <a className={`arrow-link ${className}`} href={href}>
-      {children}
-      <ArrowLeft size={19} />
-    </a>
-  );
-}
 function QuickLinks({ footer = false }: { footer?: boolean }) {
   const { t: translate } = useTranslation();
   const { quick, footerQuick } = getContent(translate);
@@ -192,7 +149,6 @@ function Home() {
       number,
     );
   const [menu, setMenu] = useState(false);
-  const [tab, setTab] = useState(0);
   const [slide, setSlide] = useState(0);
   const slides = ["hero", "everyday", "flowers", "solutions"];
   return (
@@ -421,88 +377,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <section id="journal" className="journal container section">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">{translate("journal.eyebrow")}</span>
-              <h2>{translate("journal.title")}</h2>
-            </div>
-            <LinkArrow href="#reading">{translate("journal.all")}</LinkArrow>
-          </div>
-          <div
-            className="tabs"
-            role="tablist"
-            aria-label={translate("a11y.articleCategories")}
-          >
-            {[
-              translate("journal.tabs.recommended"),
-              translate("nav.productGuide"),
-              translate("journal.tabs.digital"),
-            ].map((t, i) => (
-              <button
-                key={t}
-                role="tab"
-                aria-selected={tab === i}
-                aria-controls="reading"
-                id={`tab-${i}`}
-                onClick={() => setTab(i)}
-                className={tab === i ? "active" : ""}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div
-            className="reading-panel"
-            id="reading"
-            role="tabpanel"
-            aria-labelledby={`tab-${tab}`}
-          >
-            <Photo name="journal" alt={translate("images.journal")} />
-            <div className="reading-feature">
-              <span className="eyebrow">
-                {
-                  [
-                    translate("journal.feature.labels.recommended"),
-                    translate("journal.feature.labels.guide"),
-                    translate("journal.feature.labels.digital"),
-                  ][tab]
-                }
-              </span>
-              <h3>
-                {
-                  [
-                    translate("journal.feature.titles.recommended"),
-                    translate("journal.feature.titles.guide"),
-                    translate("journal.feature.titles.digital"),
-                  ][tab]
-                }
-              </h3>
-              <p>{translate("journal.feature.description")}</p>
-              <LinkArrow href="#faq">{translate("journal.read")}</LinkArrow>
-            </div>
-            <div className="reading-list">
-              {[
-                translate("journal.articles.cashback"),
-                translate("journal.articles.payments"),
-                translate("journal.articles.literacy"),
-              ].map((t, i) => (
-                <a href="#faq" key={t}>
-                  <strong>{t}</strong>
-                  <small>
-                    {
-                      [
-                        translate("journal.categories.iran"),
-                        translate("solutions.hamrah.cta"),
-                        translate("journal.categories.literacy"),
-                      ][i]
-                    }
-                  </small>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+        <JournalSection />
         <section id="app" className="app-promo container">
           <Photo name="app" alt={translate("images.app")} />
           <div className="promo-copy">
