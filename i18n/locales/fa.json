@@ -154,13 +154,15 @@
   "news.nextPhoto": "عکس بعدی",
   "news.selectPhoto": "انتخاب عکس از گالری",
   "news.showPhoto": "نمایش عکس {{number}}",
-  "news.openPhoto": "باز کردن عکس {{number}} و متن خبر",
   "news.photoCount": "{{number}} عکس",
-  "news.close": "بستن خبر",
-  "news.sourceName": "اخبار هلدینگ ارتباط فردا",
   "news.summaryNote": "خلاصه خبر؛ متن اصلی را در لینکدین بخوانید.",
   "news.companySource": "صفحه رسمی شرکت در لینکدین",
   "news.originalSource": "پست اصلی در لینکدین",
   "news.photoCount_one": "{{number}} عکس",
-  "news.photoCount_other": "{{number}} عکس"
+  "news.photoCount_other": "{{number}} عکس",
+  "news.breadcrumb": "مسیر صفحه",
+  "news.share": "این مطلب را به اشتراک بگذارید",
+  "news.copyLink": "کپی پیوند مطلب",
+  "news.linkCopied": "پیوند کپی شد",
+  "news.related": "خواندنی‌های مرتبط"
 }

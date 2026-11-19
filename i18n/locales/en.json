@@ -154,13 +154,15 @@
   "news.nextPhoto": "Next photo",
   "news.selectPhoto": "Choose a gallery photo",
   "news.showPhoto": "Show photo {{number}}",
-  "news.openPhoto": "Open photo {{number}} and read the news",
   "news.photoCount": "{{number}} photos",
-  "news.close": "Close news",
-  "news.sourceName": "Ertebat Farda Holding news",
   "news.summaryNote": "News summary. Read the original post on LinkedIn.",
   "news.companySource": "Official company page on LinkedIn",
   "news.originalSource": "Original post on LinkedIn",
   "news.photoCount_one": "{{number}} photo",
-  "news.photoCount_other": "{{number}} photos"
+  "news.photoCount_other": "{{number}} photos",
+  "news.breadcrumb": "Breadcrumb",
+  "news.share": "Share this article",
+  "news.copyLink": "Copy article link",
+  "news.linkCopied": "Link copied",
+  "news.related": "Related reading"
 }

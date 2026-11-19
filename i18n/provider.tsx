@@ -37,7 +37,7 @@ export function LocaleProvider({
   return <I18nextProvider i18n={instance}>{children}</I18nextProvider>;
 }
 
-export function LanguageSwitch() {
+export function LanguageSwitch({ path = "/" }: { path?: string }) {
   const { t, i18n } = useTranslation();
   const target = i18n.language === "fa" ? "en" : "fa";
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -45,7 +45,7 @@ export function LanguageSwitch() {
   return (
     <a
       className="language-switch"
-      href={`${base}${target === "en" ? "/en/" : "/"}`}
+      href={`${base}${target === "en" ? "/en" : ""}${path}`}
       hrefLang={target}
       lang={target}
       aria-label={t("language.switch")}

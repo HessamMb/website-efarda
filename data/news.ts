@@ -183,3 +183,7 @@ export const newsPosts: NewsPost[] = [
     isSummary: true,
   },
 ];
+
+export function newsHref(id: string, locale: Locale) {
+  return `${locale === "en" ? "/en" : ""}/news/${id}/`;
+}
