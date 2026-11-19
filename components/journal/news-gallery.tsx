@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Images } from "lucide-react";
-import type { NewsImage } from "@/data/news";
+import type { CoverImage } from "@/data/post-content";
 import type { Locale } from "@/i18n/provider";
 
 const assetPath = (path: string) =>
@@ -15,7 +15,7 @@ export default function NewsGallery({
   images,
   href,
 }: {
-  images: NewsImage[];
+  images: CoverImage[];
   href?: string;
 }) {
   const compact = href !== undefined;
@@ -42,7 +42,7 @@ export default function NewsGallery({
   const image = (
     <Image
       src={assetPath(current.src)}
-      alt={current.alt[locale]}
+      alt={current.alt}
       width={current.width}
       height={current.height}
       sizes={
@@ -51,6 +51,7 @@ export default function NewsGallery({
           : "(max-width: 1248px) 95vw, 1184px"
       }
       quality={90}
+      unoptimized={current.src.startsWith("/api/post-images/")}
       loading={compact ? "lazy" : "eager"}
     />
   );
@@ -129,6 +130,7 @@ export default function NewsGallery({
                 width={photo.width}
                 height={photo.height}
                 sizes="72px"
+                unoptimized={photo.src.startsWith("/api/post-images/")}
               />
             </button>
           ))}

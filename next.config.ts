@@ -1,16 +1,16 @@
 import type { NextConfig } from "next";
 
-const githubPages = process.env.GITHUB_PAGES === "true";
-const basePath = githubPages ? "/website-efarda" : "";
+if (process.env.GITHUB_PAGES === "true") {
+  throw new Error("The posts dashboard uses a Next.js server and cannot be exported to GitHub Pages.");
+}
 
 const nextConfig: NextConfig = {
-  ...(githubPages ? { output: "export", trailingSlash: true } : {}),
-  basePath,
-  env: { NEXT_PUBLIC_BASE_PATH: basePath },
-  images: { unoptimized: githubPages, qualities: [75, 90] },
-  experimental: { agentFeedback: true },
-  cacheComponents: !githubPages,
-  partialPrefetching: !githubPages,
+  serverExternalPackages: ["sharp"],
+  images: { qualities: [75, 90] },
+  experimental: {
+    agentFeedback: true,
+    serverActions: { bodySizeLimit: "24mb" },
+  },
   turbopack: {
     rules: {
       "*.css": {

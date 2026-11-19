@@ -1,4 +1,5 @@
 "use client";
+import type { NewsCard } from "@/data/post-content";
 import { useState } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -46,14 +47,14 @@ function getContent(translate: TFunction) {
   ];
   return { products };
 }
-export default function HomePage({ locale }: { locale: Locale }) {
+export default function HomePage({ locale, news }: { locale: Locale; news: NewsCard[] }) {
   return (
     <LocaleProvider locale={locale}>
-      <Home />
+      <Home news={news} />
     </LocaleProvider>
   );
 }
-function Home() {
+function Home({ news }: { news: NewsCard[] }) {
   const { t: translate, i18n } = useTranslation();
   const { products } = getContent(translate);
   const formatNumber = (number: number) =>
@@ -220,7 +221,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <JournalSection />
+        <JournalSection news={news} />
         <section id="app" className="app-promo container">
           <Photo name="app" alt={translate("images.app")} />
           <div className="promo-copy">

@@ -4,22 +4,24 @@ import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
-import { newsHref, newsPosts } from "@/data/news";
+import { newsHref, type NewsCard } from "@/data/post-content";
 import type { Locale } from "@/i18n/provider";
 import NewsGallery from "./news-gallery";
 
-export default function NewsCarousel() {
+export default function NewsCarousel({ posts }: { posts: NewsCard[] }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language as Locale;
-  const [index, setIndex] = useState(0);
-  const post = newsPosts[index];
-  const href = newsHref(post.id, locale);
+  const [active, setActive] = useState(0);
+  if (!posts.length) return <p>{t("news.empty")}</p>;
+  const index = active % posts.length;
+  const post = posts[index];
+  const href = newsHref(post.slug, locale);
   const number = (value: number) => new Intl.NumberFormat(locale).format(value);
   const rtl = i18n.dir() === "rtl";
   const PreviousIcon = rtl ? ChevronRight : ChevronLeft;
   const NextIcon = rtl ? ChevronLeft : ChevronRight;
   const changePost = (next: number) =>
-    setIndex((next + newsPosts.length) % newsPosts.length);
+    setActive((next + posts.length) % posts.length);
   return (
     <div
       className="news-carousel"
@@ -28,11 +30,11 @@ export default function NewsCarousel() {
       aria-label={t("news.tab")}
     >
       <div className="reading-panel news-panel">
-        <NewsGallery key={post.id} images={post.images} href={href} />
+        <NewsGallery key={post.slug} images={post.content.images} href={href} />
         <div className="reading-feature news-feature">
-          <span className="eyebrow">{t(post.categoryKey)}</span>
-          <h3><Link href={href}>{post.title[locale]}</Link></h3>
-          <p>{post.excerpt[locale]}</p>
+          <span className="eyebrow">{t(post.content.categoryKey)}</span>
+          <h3><Link href={href}>{post.content.title}</Link></h3>
+          <p>{post.content.excerpt}</p>
           <Link className="arrow-link" href={href}>
             {t("news.read")}
             <ArrowLeft size={19} />
@@ -42,20 +44,20 @@ export default function NewsCarousel() {
           className="reading-list news-list"
           aria-label={t("news.otherNews")}
         >
-          {newsPosts.map((item, i) => (
+          {posts.map((item, i) => (
             <Link
               className={index === i ? "is-current" : ""}
               aria-current={index === i ? "true" : undefined}
-              href={newsHref(item.id, locale)}
-              key={item.id}
+              href={newsHref(item.slug, locale)}
+              key={item.slug}
             >
-              <strong>{item.title[locale]}</strong>
-              <small>{t(item.categoryKey)}</small>
+              <strong>{item.content.title}</strong>
+              <small>{t(item.content.categoryKey)}</small>
             </Link>
           ))}
         </div>
       </div>
-      {newsPosts.length > 1 && (
+      {posts.length > 1 && (
         <div
           className="news-pagination"
           role="group"
@@ -71,7 +73,7 @@ export default function NewsCarousel() {
             <span aria-live="polite">
               {t("news.position", {
                 current: number(index + 1),
-                total: number(newsPosts.length),
+                total: number(posts.length),
               })}
             </span>
             <button
@@ -82,9 +84,9 @@ export default function NewsCarousel() {
             </button>
           </div>
           <div className="news-pagination-dots">
-            {newsPosts.map((item, i) => (
+            {posts.map((item, i) => (
               <button
-                key={item.id}
+                key={item.slug}
                 onClick={() => changePost(i)}
                 aria-label={t("news.showNews", { number: number(i + 1) })}
                 aria-pressed={index === i}

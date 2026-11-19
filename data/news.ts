@@ -32,7 +32,7 @@ function photo(
   };
 }
 
-// Curated company posts. Add a post here with its own source and matching photos.
+// Initial content imported once when the editorial database is created.
 // Dates are omitted unless an exact publication date has been verified.
 export const newsPosts: NewsPost[] = [
   {
@@ -183,7 +183,3 @@ export const newsPosts: NewsPost[] = [
     isSummary: true,
   },
 ];
-
-export function newsHref(id: string, locale: Locale) {
-  return `${locale === "en" ? "/en" : ""}/news/${id}/`;
-}

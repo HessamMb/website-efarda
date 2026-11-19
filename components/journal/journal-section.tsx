@@ -1,10 +1,11 @@
 "use client";
+import type { NewsCard } from "@/data/post-content";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 import { Photo, LinkArrow } from "@/components/home-ui";
 import NewsCarousel from "./news-carousel";
-export default function JournalSection() {
+export default function JournalSection({ news }: { news: NewsCard[] }) {
   const { t: translate, i18n } = useTranslation();
   const [tab, setTab] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -81,7 +82,7 @@ export default function JournalSection() {
         tabIndex={0}
       >
         {tab === 0 ? (
-          <NewsCarousel />
+          <NewsCarousel posts={news} />
         ) : (
           <div className="reading-panel">
             <Photo name="journal" alt={translate("images.journal")} />

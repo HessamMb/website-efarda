@@ -164,5 +164,8 @@
   "news.share": "Share this article",
   "news.copyLink": "Copy article link",
   "news.linkCopied": "Link copied",
-  "news.related": "Related reading"
+  "news.related": "Related reading",
+  "news.category.general": "Company news",
+  "news.empty": "No news has been published in this language yet.",
+  "news.contents": "In this article"
 }

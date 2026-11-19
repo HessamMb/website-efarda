@@ -6,9 +6,10 @@ import Link from "next/link";
 import { ArrowLeft, Copy, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ContactSection, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { newsHref, type NewsPost } from "@/data/news";
+import { newsHref, type NewsCard, type PublishedPost } from "@/data/post-content";
 import type { Locale } from "@/i18n/provider";
 import NewsGallery from "./news-gallery";
+import PostBlocks from "./post-blocks";
 
 function ShareNews() {
   const { t } = useTranslation();
@@ -45,16 +46,20 @@ function ShareNews() {
   );
 }
 
-export default function NewsDetail({ post, related }: { post: NewsPost; related: NewsPost[] }) {
+export default function NewsDetail({ post, related }: { post: PublishedPost; related: NewsCard[] }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language as Locale;
   const home = locale === "en" ? "/en/" : "/";
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const category = t(post.categoryKey);
+  const { content, slug, hasTranslation, publishedAt } = post;
+  const category = t(content.categoryKey);
+  const headings = content.blocks.flatMap((block, index) =>
+    block.kind === "heading" ? [{ id: `section-${index + 1}`, text: block.text }] : [],
+  );
 
   return (
     <>
-      <SiteHeader homeHref={base + home} languagePath={newsHref(post.id, "fa")} />
+      <SiteHeader homeHref={base + home} languagePath={hasTranslation ? newsHref(slug, "fa") : "/#journal"} />
       <main>
         <article className="news-detail container">
           <nav className="news-breadcrumb" aria-label={t("news.breadcrumb")}>
@@ -66,30 +71,41 @@ export default function NewsDetail({ post, related }: { post: NewsPost; related:
           </nav>
           <header className="news-detail-heading">
             <span className="eyebrow">{category}</span>
-            <h1>{post.title[locale]}</h1>
-            <p>{post.excerpt[locale]}</p>
+            <h1>{content.title}</h1>
+            {content.excerpt && <p>{content.excerpt}</p>}
+            {publishedAt !== null && (
+              <time dateTime={new Date(publishedAt).toISOString()}>
+                {new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "Asia/Tehran" }).format(publishedAt)}
+              </time>
+            )}
           </header>
           <figure className="news-detail-hero">
-            <NewsGallery images={post.images} />
-            {post.imageNote && <figcaption className="news-image-note">{post.imageNote[locale]}</figcaption>}
+            <NewsGallery images={content.images} />
+            {content.imageNote && <figcaption className="news-image-note">{content.imageNote}</figcaption>}
           </figure>
           <div className="news-detail-body">
             <div className="news-detail-copy">
-              {post.paragraphs[locale].map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-              {post.isSummary && <p className="article-summary-note">{t("news.summaryNote")}</p>}
-              <a className="arrow-link article-source" href={post.sourceUrl} target="_blank" rel="noopener noreferrer">
-                {t(post.sourceIsProfile ? "news.companySource" : "news.originalSource")}
-                <ExternalLink size={16} />
-              </a>
+              <PostBlocks blocks={content.blocks} />
+              {content.isSummary && <p className="article-summary-note">{t("news.summaryNote")}</p>}
+              {content.sourceUrl && (
+                <a className="arrow-link article-source" href={content.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {t(content.sourceIsProfile ? "news.companySource" : "news.originalSource")}
+                  <ExternalLink size={16} />
+                </a>
+              )}
             </div>
             <aside className="news-detail-aside">
+              {headings.length > 0 && (
+                <nav className="news-detail-toc" aria-label={t("news.contents")}>
+                  <h2>{t("news.contents")}</h2>
+                  <ul>{headings.map(({ id, text }) => <li key={id}><a href={`#${id}`}>{text}</a></li>)}</ul>
+                </nav>
+              )}
               <ShareNews />
               {related[0] && (
                 <div className="news-detail-more">
                   <h2>{t("news.otherNews")}</h2>
-                  <Link href={newsHref(related[0].id, locale)}>{related[0].title[locale]}</Link>
+                  <Link href={newsHref(related[0].slug, locale)}>{related[0].content.title}</Link>
                 </div>
               )}
             </aside>
@@ -101,19 +117,20 @@ export default function NewsDetail({ post, related }: { post: NewsPost; related:
               <h2 id="news-related-title">{t("news.related")}</h2>
               <div className="news-related-grid">
                 {related.map((item) => {
-                  const cover = item.images[0];
+                  const cover = item.content.images[0];
                   return (
-                    <article key={item.id}>
-                      <Link href={newsHref(item.id, locale)}>
+                    <article key={item.slug}>
+                      <Link href={newsHref(item.slug, locale)}>
                         <Image
                           src={base + cover.src}
                           alt=""
                           width={cover.width}
                           height={cover.height}
+                          unoptimized={cover.src.startsWith("/api/post-images/")}
                           sizes="(max-width: 599px) 90vw, (max-width: 1000px) 45vw, 380px"
                         />
-                        <span className="eyebrow">{t(item.categoryKey)}</span>
-                        <h3>{item.title[locale]}</h3>
+                        <span className="eyebrow">{t(item.content.categoryKey)}</span>
+                        <h3>{item.content.title}</h3>
                         <span className="arrow-link">{t("news.read")} <ArrowLeft size={16} /></span>
                       </Link>
                     </article>

@@ -164,5 +164,8 @@
   "news.share": "این مطلب را به اشتراک بگذارید",
   "news.copyLink": "کپی پیوند مطلب",
   "news.linkCopied": "پیوند کپی شد",
-  "news.related": "خواندنی‌های مرتبط"
+  "news.related": "خواندنی‌های مرتبط",
+  "news.category.general": "اخبار شرکت",
+  "news.empty": "هنوز خبری به این زبان منتشر نشده است.",
+  "news.contents": "در این مطلب می‌خوانید"
 }

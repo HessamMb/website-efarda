@@ -2134,3 +2134,55 @@ html[dir="ltr"] .phone h3 {
     font-size: 15px;
   }
 }
+
+.news-detail-heading time {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 10px;
+}
+.news-detail-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.news-detail-copy > :is(h2, blockquote, ul, figure, hr) {
+  margin-block: 24px;
+}
+.news-detail-copy > :is(p, blockquote) {
+  white-space: pre-line;
+}
+.news-detail-copy > blockquote {
+  padding: 20px 24px;
+  background: var(--surface-mint);
+  border-radius: 5px;
+  color: var(--brand-deep);
+  font-size: 18px;
+  font-weight: 650;
+}
+.news-detail-copy > ul {
+  list-style: disc;
+  padding-inline-start: 24px;
+}
+.news-detail-copy > figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.news-detail-copy > hr {
+  border-color: var(--border-default);
+}
+.news-detail-toc {
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  background: var(--surface-subtle);
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+.news-detail-toc ul {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.news-detail-toc a:hover {
+  text-decoration: underline;
+}
