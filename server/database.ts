@@ -19,6 +19,21 @@ export function transaction<T>(db: DatabaseSync, run: () => T): T {
   }
 }
 
+const proposalSchema = `
+  CREATE TABLE IF NOT EXISTS proposals (
+    id INTEGER PRIMARY KEY,
+    author_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    slug TEXT NOT NULL,
+    locale TEXT NOT NULL CHECK (locale IN ('fa', 'en')),
+    base_revision INTEGER NOT NULL,
+    new_post INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending'
+      CHECK (status IN ('pending', 'accepted', 'rejected')),
+    created_at INTEGER NOT NULL
+  );
+`;
+
 function initialize(db: DatabaseSync) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -51,27 +66,31 @@ function initialize(db: DatabaseSync) {
       revision INTEGER NOT NULL DEFAULT 1,
       PRIMARY KEY (slug, locale)
     );
-    CREATE TABLE IF NOT EXISTS proposals (
-      id INTEGER PRIMARY KEY,
-      author_id INTEGER NOT NULL REFERENCES users(id),
-      slug TEXT NOT NULL,
-      locale TEXT NOT NULL CHECK (locale IN ('fa', 'en')),
-      base_revision INTEGER NOT NULL,
-      new_post INTEGER NOT NULL,
-      content TEXT NOT NULL,
-      status TEXT NOT NULL DEFAULT 'pending'
-        CHECK (status IN ('pending', 'accepted', 'rejected')),
-      created_at INTEGER NOT NULL
-    );
+    ${proposalSchema}
     CREATE INDEX IF NOT EXISTS published_by_locale
       ON translations(locale, published_at) WHERE published IS NOT NULL;
-    CREATE INDEX IF NOT EXISTS proposals_by_author ON proposals(author_id);
     CREATE TABLE IF NOT EXISTS post_images (
       id TEXT PRIMARY KEY,
       bytes BLOB NOT NULL
     );
     CREATE TABLE IF NOT EXISTS migrations (name TEXT PRIMARY KEY);
   `);
+
+  if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get("retain-proposals-after-user-deletion")) {
+    const author = db.prepare("PRAGMA table_info(proposals)").all().find((column) => column.name === "author_id");
+    if (author?.notnull) {
+      db.exec(`
+        ALTER TABLE proposals RENAME TO previous_proposals;
+        ${proposalSchema}
+        INSERT INTO proposals (id, author_id, slug, locale, base_revision, new_post, content, status, created_at)
+        SELECT id, author_id, slug, locale, base_revision, new_post, content, status, created_at
+        FROM previous_proposals;
+        DROP TABLE previous_proposals;
+      `);
+    }
+    db.exec("CREATE INDEX IF NOT EXISTS proposals_by_author ON proposals(author_id)");
+    db.prepare("INSERT INTO migrations (name) VALUES (?)").run("retain-proposals-after-user-deletion");
+  }
 
   if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get("initial-news")) {
     const insertPost = db.prepare("INSERT INTO posts (slug, created_at) VALUES (?, ?)");

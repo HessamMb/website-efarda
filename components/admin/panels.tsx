@@ -7,7 +7,7 @@ import { getDb } from "@/server/database";
 import { getTranslation, listPosts, listProposals, proposalById, type Translation } from "@/server/posts";
 import type { User } from "@/server/session";
 import PostBlocks from "@/components/journal/post-blocks";
-import { changeRole, createUser, removePost, reviewProposal, unpublish } from "./actions";
+import { changeRole, createUser, deleteUser, removePost, reviewProposal, unpublish } from "./actions";
 import Editor, { ImagePreview } from "./editor";
 
 export const roleLabels: Record<Role, string> = { admin: "مدیر", writer: "نویسنده", reader: "خواننده" };
@@ -118,7 +118,7 @@ export function ProposalsPanel({ user }: { user: User }) {
           const content = JSON.parse(proposal.content) as PostContent;
           return (
             <Link className="admin-card admin-post" key={proposal.id} href={`/admin/proposals/${proposal.id}`}>
-              <div><h2 dir="auto">{content.title}</h2><small>{localeLabels[proposal.locale]} · <bdi>{proposal.username}</bdi></small></div>
+              <div><h2 dir="auto">{content.title}</h2><small>{localeLabels[proposal.locale]} · <bdi>{proposal.username ?? "کاربر حذف‌شده"}</bdi></small></div>
               <span>{proposalLabels[proposal.status]}</span>
             </Link>
           );
@@ -137,7 +137,7 @@ export function ProposalPanel({ user, id }: { user: User; id: number }) {
     <>
       <Link className="admin-back" href="/admin/proposals">بازگشت به پیشنهادها</Link>
       <div className="admin-title">
-        <div><h1>بررسی پیشنهاد</h1><p>{localeLabels[proposal.locale]} · <bdi>{proposal.username}</bdi> · {proposalLabels[proposal.status]}</p></div>
+        <div><h1>بررسی پیشنهاد</h1><p>{localeLabels[proposal.locale]} · <bdi>{proposal.username ?? "کاربر حذف‌شده"}</bdi> · {proposalLabels[proposal.status]}</p></div>
       </div>
       <div className="admin-card" dir={proposal.locale === "fa" ? "rtl" : "ltr"} lang={proposal.locale}>
         <h2>{content.title}</h2>
@@ -161,6 +161,7 @@ function RoleSelect({ role = "reader" }: { role?: Role }) {
 
 export function UsersPanel() {
   const users = getDb().prepare("SELECT id, username, role FROM users ORDER BY username").all() as User[];
+  const adminCount = users.filter((user) => user.role === "admin").length;
   return (
     <>
       <div className="admin-title"><div><h1>کاربران</h1><p>مدیریت حساب‌ها و سطح دسترسی پنل.</p></div></div>
@@ -175,13 +176,22 @@ export function UsersPanel() {
       </section>
       <div className="admin-list">
         {users.map((user) => (
-          <form className="admin-card admin-post" action={changeRole.bind(null, user.id)} key={user.id}>
+          <article className="admin-card admin-post" key={user.id}>
             <strong dir="ltr">{user.username}</strong>
-            <div className="admin-toolbar">
+            <form className="admin-toolbar" action={changeRole.bind(null, user.id)}>
               <label>نقش<RoleSelect role={user.role} /></label>
               <button className="admin-button secondary">ذخیره نقش</button>
-            </div>
-          </form>
+            </form>
+            {user.role !== "admin" || adminCount > 1 ? (
+              <form className="admin-toolbar" action={deleteUser.bind(null, user.id, user.username)}>
+                <label className="admin-check">
+                  <input type="checkbox" name="confirm" required />
+                  حذف این حساب را تأیید می‌کنم
+                </label>
+                <button className="admin-button destructive">حذف کاربر</button>
+              </form>
+            ) : null}
+          </article>
         ))}
       </div>
     </>

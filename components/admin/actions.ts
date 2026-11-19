@@ -171,3 +171,24 @@ export async function changeRole(id: number, form: FormData) {
   if (!result.changes) redirect("/admin/users?error=lastAdmin");
   redirect("/admin/users?done=roleChanged");
 }
+
+export async function deleteUser(id: number, username: string, form: FormData) {
+  const admin = await requireUser(["admin"]);
+  if (form.get("confirm") !== "on") redirect("/admin/users?error=invalid");
+  const db = getDb();
+  const error = transaction(db, () => {
+    const user = db.prepare("SELECT role FROM users WHERE id = ? AND username = ?").get(id, username);
+    if (!user) return "userMissing";
+    if (user.role === "admin" && !db.prepare("SELECT 1 FROM users WHERE role = 'admin' AND id <> ?").get(id)) {
+      return "lastAdminDelete";
+    }
+    db.prepare("DELETE FROM users WHERE id = ?").run(id);
+    db.prepare("DELETE FROM login_attempts WHERE username = ?").run(username);
+  });
+  if (error) redirect(`/admin/users?error=${error}`);
+  if (id === admin.id) {
+    await signOut();
+    redirect("/admin/login");
+  }
+  redirect("/admin/users?done=userDeleted");
+}

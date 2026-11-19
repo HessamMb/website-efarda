@@ -19,7 +19,7 @@ export type Proposal = {
   base_revision: number;
   new_post: number;
   content: string;
-  username: string;
+  username: string | null;
   status: "pending" | "accepted" | "rejected";
 };
 
@@ -39,14 +39,14 @@ export function listPosts() {
 
 export function listProposals(authorId?: number) {
   return getDb().prepare(`
-    SELECT proposals.*, users.username FROM proposals JOIN users ON proposals.author_id = users.id
+    SELECT proposals.*, users.username FROM proposals LEFT JOIN users ON proposals.author_id = users.id
     WHERE (? IS NULL OR author_id = ?) ORDER BY proposals.id DESC
   `).all(authorId ?? null, authorId ?? null) as unknown as Proposal[];
 }
 
 export function proposalById(id: number) {
   return getDb().prepare(`
-    SELECT proposals.*, users.username FROM proposals JOIN users ON proposals.author_id = users.id
+    SELECT proposals.*, users.username FROM proposals LEFT JOIN users ON proposals.author_id = users.id
     WHERE proposals.id = ?
   `).get(id) as Proposal | undefined;
 }

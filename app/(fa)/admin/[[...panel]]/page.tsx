@@ -14,6 +14,7 @@ const successes: Record<string, string> = {
   accepted: "پیشنهاد به‌عنوان پیش‌نویس ذخیره شد.",
   rejected: "پیشنهاد رد شد.",
   userCreated: "حساب کاربر ایجاد شد.",
+  userDeleted: "حساب کاربر حذف شد.",
   roleChanged: "نقش کاربر به‌روزرسانی شد.",
 };
 
@@ -23,6 +24,8 @@ const errors: Record<string, string> = {
   conflict: "نسخه مطلب تغییر کرده یا پیشنهاد قبلاً بررسی شده است.",
   invalidUser: "نام کاربری، نقش یا رمز عبور معتبر نیست. رمز عبور باید حداقل ۱۲ نویسه باشد.",
   usernameExists: "این نام کاربری از قبل ثبت شده است.",
+  lastAdminDelete: "حذف آخرین مدیر امکان‌پذیر نیست.",
+  userMissing: "این حساب دیگر وجود ندارد.",
   lastAdmin: "نقش آخرین مدیر قابل تغییر نیست.",
 };
 

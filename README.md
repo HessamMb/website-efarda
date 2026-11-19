@@ -25,7 +25,7 @@ Three existing news posts are imported once into SQLite, preserving both languag
 
 | Role | Access |
 | --- | --- |
-| Admin | Manages posts and proposals, creates accounts, and changes roles. |
+| Admin | Manages posts and proposals, creates and deletes accounts, and changes roles. |
 | Writer | Manages posts, publishes or unpublishes either language, and reviews proposals. |
 | Reader | Can view posts in the panel and submit proposed additions or changes for review. |
 
