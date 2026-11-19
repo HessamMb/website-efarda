@@ -7,7 +7,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   const src = imagePath(id);
   if (!isPublicImage(src)) {
     const user = await currentUser();
-    if (!user || (user.role === "reader" && !canReaderViewImage(src, user.id))) {
+    if (!user || user.mustChangePassword || (user.role === "reader" && !canReaderViewImage(src, user.id))) {
       return new Response(null, { status: 404 });
     }
   }

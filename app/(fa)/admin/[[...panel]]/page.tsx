@@ -73,7 +73,7 @@ export default async function AdminPage({
           {user.role === "admin" && <Link href="/admin/users" aria-current={section === "users" ? "page" : undefined}>کاربران</Link>}
         </nav>
         <div className="admin-toolbar">
-          <span><bdi>{user.username}</bdi> · {roleLabels[user.role]}</span>
+          <Link href="/admin/account"><bdi>{user.username}</bdi> · {roleLabels[user.role]}</Link>
           <form action={logout}><button className="admin-button secondary">خروج</button></form>
         </div>
       </header>

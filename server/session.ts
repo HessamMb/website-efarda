@@ -10,19 +10,34 @@ const tokenHash = (token: string) => createHash("sha256").update(token).digest("
 
 export type User = { id: number; username: string; role: Role };
 
-export async function currentUser() {
+type SessionUser = User & {
+  mustChangePassword: number;
+  recoveryEmail: string | null;
+  pendingEmail: string | null;
+};
+
+export async function currentSession() {
   const token = (await cookies()).get(cookieName)?.value;
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return undefined;
-  return getDb().prepare(`
-    SELECT users.id, users.username, users.role FROM sessions
+  const hash = tokenHash(token);
+  const user = getDb().prepare(`
+    SELECT users.id, users.username, users.role, must_change_password AS mustChangePassword,
+      recovery_email AS recoveryEmail, pending_email AS pendingEmail
+    FROM sessions
     JOIN users ON users.id = sessions.user_id
     WHERE token_hash = ? AND expires_at > ?
-  `).get(tokenHash(token), Date.now()) as User | undefined;
+  `).get(hash, Date.now()) as SessionUser | undefined;
+  if (user) return { user, hash };
+}
+
+export async function currentUser() {
+  return (await currentSession())?.user;
 }
 
 export async function requireUser(roles?: readonly Role[]) {
   const user = await currentUser();
   if (!user) redirect("/admin/login");
+  if (user.mustChangePassword) redirect("/admin/account");
   if (roles && !roles.includes(user.role)) redirect("/admin?error=forbidden");
   return user;
 }
@@ -45,8 +60,8 @@ export async function signIn(username: string, password: string) {
   });
   if (!allowed) return false;
 
-  const user = db.prepare("SELECT id, password_hash FROM users WHERE username = ?")
-    .get(username) as { id: number; password_hash: string } | undefined;
+  const user = db.prepare("SELECT id, password_hash, must_change_password FROM users WHERE username = ?")
+    .get(username) as { id: number; password_hash: string; must_change_password: number } | undefined;
   if (!(await checkPassword(password, user?.password_hash)) || !user) return false;
 
   const store = await cookies();
@@ -70,7 +85,7 @@ export async function signIn(username: string, password: string) {
     path: "/",
     maxAge: lifetime,
   });
-  return true;
+  return { mustChangePassword: !!user.must_change_password, signedInAt: now };
 }
 
 export async function signOut() {

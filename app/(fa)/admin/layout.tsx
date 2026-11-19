@@ -3,6 +3,7 @@ import "./admin.css";
 
 export const metadata: Metadata = {
   title: "پنل مدیریت ارتباط فردا",
+  referrer: "no-referrer",
   robots: { index: false, follow: false },
 };
 

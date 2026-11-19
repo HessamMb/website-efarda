@@ -1,4 +1,4 @@
-import { closeSync, mkdirSync, openSync } from "node:fs";
+import { closeSync, mkdirSync, openSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { newsPosts } from "@/data/news";
@@ -76,6 +76,28 @@ function initialize(db: DatabaseSync) {
     CREATE TABLE IF NOT EXISTS migrations (name TEXT PRIMARY KEY);
   `);
 
+  if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get("account-recovery")) {
+    db.exec(`
+      ALTER TABLE users ADD COLUMN must_change_password INTEGER NOT NULL DEFAULT 1;
+      ALTER TABLE users ADD COLUMN recovery_email TEXT;
+      ALTER TABLE users ADD COLUMN pending_email TEXT;
+      CREATE TABLE account_tokens (
+        token_hash TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        purpose TEXT NOT NULL CHECK (purpose IN ('verify', 'reset')),
+        expires_at INTEGER NOT NULL,
+        UNIQUE (user_id, purpose)
+      );
+      CREATE TABLE account_mail_attempts (
+        purpose TEXT NOT NULL,
+        account TEXT NOT NULL,
+        attempted_at INTEGER NOT NULL
+      );
+      CREATE INDEX account_mail_by_time ON account_mail_attempts(attempted_at);
+    `);
+    db.prepare("INSERT INTO migrations (name) VALUES (?)").run("account-recovery");
+  }
+
   if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get("retain-proposals-after-user-deletion")) {
     const author = db.prepare("PRAGMA table_info(proposals)").all().find((column) => column.name === "author_id");
     if (author?.notnull) {
@@ -119,8 +141,12 @@ function initialize(db: DatabaseSync) {
   }
 
   const username = process.env.EFARDA_ADMIN_USERNAME?.trim().toLowerCase();
-  const password = process.env.EFARDA_ADMIN_PASSWORD;
-  if (!db.prepare("SELECT 1 FROM users LIMIT 1").get() && (username || password)) {
+  const passwordFile = process.env.EFARDA_ADMIN_PASSWORD_FILE;
+  const bootstrapPassword = process.env.EFARDA_ADMIN_PASSWORD;
+  if (!db.prepare("SELECT 1 FROM users LIMIT 1").get() && (username || passwordFile || bootstrapPassword)) {
+    const password = passwordFile
+      ? readFileSync(/*turbopackIgnore: true*/ passwordFile, "utf8").replace(/\r?\n$/, "")
+      : bootstrapPassword;
     if (!username || !isUsername(username) || !password || !validPassword(password)) {
       throw new Error("Set a valid EFARDA_ADMIN_USERNAME and a 12–128 character EFARDA_ADMIN_PASSWORD.");
     }

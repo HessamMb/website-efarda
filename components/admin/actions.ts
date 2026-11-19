@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { notifyAdminOfLogin } from "@/server/account-mail";
 import { isPostLocale, isPostSlug, newsHref, postLocales, type PostContent } from "@/data/post-content";
 import { getDb, transaction } from "@/server/database";
 import { isRole, isUsername, passwordHash, validPassword } from "@/server/credentials";
@@ -19,10 +21,12 @@ function invalidatePost(slug: string) {
 
 export async function login(_state: FormResult, form: FormData): Promise<FormResult> {
   const username = field(form, "username").trim().toLowerCase();
-  if (!(await signIn(username, field(form, "password")))) {
+  const session = await signIn(username, field(form, "password"));
+  if (!session) {
     return { error: "نام کاربری یا رمز عبور درست نیست، یا تعداد تلاش‌ها از حد مجاز گذشته است." };
   }
-  redirect("/admin");
+  after(() => notifyAdminOfLogin(username, session.signedInAt));
+  redirect(session.mustChangePassword ? "/admin/account" : "/admin");
 }
 
 export async function logout() {
