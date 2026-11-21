@@ -5,6 +5,7 @@ if (process.env.GITHUB_PAGES === "true") {
 }
 
 const nextConfig: NextConfig = {
+  ...(process.env.EFARDA_STANDALONE === "1" ? { output: "standalone" } : {}),
   serverExternalPackages: ["sharp"],
   images: { qualities: [75, 90] },
   experimental: {

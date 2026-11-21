@@ -64,3 +64,5 @@ npm start
 Production requires a running Next.js server, HTTPS, and persistent local storage for SQLite. Set `EFARDA_SITE_URL` to the public HTTPS origin to generate canonical and alternate-language URLs. The existing GitHub Pages workflow and demo are static. Review this branch locally before choosing a server deployment to replace that workflow.
 
 Original photographs come from the supplied Figma file. See `public/images/home/README.md` and `public/images/news/README.md` for sources. Translations of site labels live in `i18n/locales/`.
+
+For container deployment, see the [Docker and Nginx handoff](deploy/README.md).
