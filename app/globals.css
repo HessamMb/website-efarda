@@ -2186,3 +2186,42 @@ html[dir="ltr"] .phone h3 {
 .news-detail-toc a:hover {
   text-decoration: underline;
 }
+
+.hero--news .hero-copy {
+  min-width: 0;
+}
+.hero--news .hero-copy h1 {
+  font-size: clamp(25px, 3vw, 40px);
+  margin-block: 16px 22px;
+  overflow-wrap: anywhere;
+}
+.hero--news .hero-copy > .arrow-link + .arrow-link {
+  margin-inline-start: 16px;
+}
+.hero--news .hero-main-photo > .photo {
+  width: 100%;
+  object-position: center;
+}
+
+@media (max-width: 599px) {
+  .hero--news .hero-copy > .arrow-link + .arrow-link {
+    margin-block-start: 10px;
+  }
+}
+
+.news-archive-select {
+  display: grid;
+  gap: 6px;
+  max-width: 34rem;
+  margin-top: 16px;
+  color: var(--deep);
+  font-size: 13px;
+}
+.news-archive-select select {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  background: white;
+}

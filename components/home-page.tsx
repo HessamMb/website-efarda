@@ -1,5 +1,7 @@
 "use client";
-import type { NewsCard } from "@/data/post-content";
+import { newsHref, type NewsCard } from "@/data/post-content";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -62,37 +64,52 @@ function Home({ news }: { news: NewsCard[] }) {
       number,
     );
   const [slide, setSlide] = useState(0);
-  const slides = ["hero", "everyday", "flowers", "solutions"];
+  const slides = news.slice(0, 5);
+  const slideCount = Math.max(slides.length, 1);
+  const activeSlide = slide % slideCount;
+  const featured = slides[activeSlide];
+  const cover = featured?.content.images[0];
+  const href = featured ? newsHref(featured.slug, i18n.language as Locale) : "#about";
   return (
     <>
       <SiteHeader />
       <main>
-        <section className="hero container">
+        <section className={`hero container${featured ? " hero--news" : ""}`}>
           <div className="hero-copy">
-            <span className="eyebrow">{translate("hero.eyebrow")}</span>
-            <h1>
-              {translate("hero.titleFirst")}
-              <br />
-              {translate("hero.titleSecond")}
+            <span className="eyebrow">{translate(featured ? "news.tab" : "hero.eyebrow")}</span>
+            <h1 aria-live="polite">
+              {featured ? featured.content.title : (
+                <>{translate("hero.titleFirst")}<br />{translate("hero.titleSecond")}</>
+              )}
             </h1>
             <div className="accent-line" />
-            <p>{translate("hero.description")}</p>
-            <LinkArrow href="#about" className="button">
-              {translate("hero.cta")}
-            </LinkArrow>
+            <p>{featured ? featured.content.excerpt : translate("hero.description")}</p>
+            <Link className="button arrow-link" href={href}>
+              {translate(featured ? "news.read" : "hero.cta")}
+              <ArrowLeft size={19} />
+            </Link>
+            {featured && <LinkArrow href="#journal">{translate("journal.all")}</LinkArrow>}
           </div>
           <div className="hero-pictures">
-            <a href="#about" className="hero-main-photo">
-              <Photo
-                eager
-                name={slides[slide]}
-                alt={translate("images.hero")}
-              />
+            <Link href={href} className="hero-main-photo">
+              {cover ? (
+                <Image
+                  className="photo"
+                  src={cover.src}
+                  alt={cover.alt}
+                  width={cover.width}
+                  height={cover.height}
+                  sizes="(max-width: 599px) 90vw, (max-width: 1099px) 55vw, 366px"
+                  loading="eager"
+                  quality={90}
+                  unoptimized={cover.src.startsWith("/api/post-images/")}
+                />
+              ) : <Photo eager name="hero" alt={translate("images.hero")} />}
               <div>
-                {translate("hero.caption")}
+                {translate(featured ? featured.content.categoryKey : "hero.caption")}
                 <ArrowUpLeft size={23} />
               </div>
-            </a>
+            </Link>
             <div className="anniversary">
               <div className="building">
                 <Photo name="building" alt={translate("images.building")} />
@@ -105,37 +122,36 @@ function Home({ news }: { news: NewsCard[] }) {
                   </strong>
                 </div>
               </div>
-              <div className="slider-controls">
-                <button
-                  aria-label={translate("a11y.nextSlide")}
-                  onClick={() => setSlide((slide + 1) % 4)}
-                >
-                  <ArrowLeft />
-                </button>
-                <small>
-                  {formatNumber(slide + 1)} / {formatNumber(4)}
-                </small>
-                <button
-                  aria-label={translate("a11y.previousSlide")}
-                  disabled={slide === 0}
-                  onClick={() => setSlide((slide + 3) % 4)}
-                >
-                  <ArrowLeft />
-                </button>
-              </div>
+              {slides.length > 1 && (
+                <div className="slider-controls">
+                  <button
+                    aria-label={translate("news.next")}
+                    onClick={() => setSlide((activeSlide + 1) % slideCount)}
+                  >
+                    <ArrowLeft />
+                  </button>
+                  <small>{formatNumber(activeSlide + 1)} / {formatNumber(slideCount)}</small>
+                  <button
+                    aria-label={translate("news.previous")}
+                    onClick={() => setSlide((activeSlide + slideCount - 1) % slideCount)}
+                  >
+                    <ArrowLeft />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className="hero-bottom">
             <small>{translate("brand.tagline")}</small>
             <div className="dots">
-              {slides.map((s, i) => (
+              {slides.length > 1 && slides.map((item, i) => (
                 <button
-                  key={s}
-                  aria-label={translate("a11y.showSlide", {
+                  key={item.slug}
+                  aria-label={translate("news.showNews", {
                     number: formatNumber(i + 1),
                   })}
-                  aria-pressed={slide === i}
-                  className={slide === i ? "active" : ""}
+                  aria-pressed={activeSlide === i}
+                  className={activeSlide === i ? "active" : ""}
                   onClick={() => setSlide(i)}
                 />
               ))}

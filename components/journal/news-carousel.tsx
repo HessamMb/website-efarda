@@ -15,6 +15,8 @@ export default function NewsCarousel({ posts }: { posts: NewsCard[] }) {
   if (!posts.length) return <p>{t("news.empty")}</p>;
   const index = active % posts.length;
   const post = posts[index];
+  const firstVisible = Math.floor(index / 5) * 5;
+  const visible = posts.slice(firstVisible, firstVisible + 5);
   const href = newsHref(post.slug, locale);
   const number = (value: number) => new Intl.NumberFormat(locale).format(value);
   const rtl = i18n.dir() === "rtl";
@@ -44,10 +46,10 @@ export default function NewsCarousel({ posts }: { posts: NewsCard[] }) {
           className="reading-list news-list"
           aria-label={t("news.otherNews")}
         >
-          {posts.map((item, i) => (
+          {visible.map((item, i) => (
             <Link
-              className={index === i ? "is-current" : ""}
-              aria-current={index === i ? "true" : undefined}
+              className={index === firstVisible + i ? "is-current" : ""}
+              aria-current={index === firstVisible + i ? "true" : undefined}
               href={newsHref(item.slug, locale)}
               key={item.slug}
             >
@@ -57,6 +59,16 @@ export default function NewsCarousel({ posts }: { posts: NewsCard[] }) {
           ))}
         </div>
       </div>
+      {posts.length > 5 && (
+        <label className="news-archive-select">
+          {t("news.chooseArchivePost")}
+          <select value={index} onChange={(event) => changePost(Number(event.target.value))}>
+            {posts.map((item, i) => (
+              <option key={item.slug} value={i}>{item.content.title}</option>
+            ))}
+          </select>
+        </label>
+      )}
       {posts.length > 1 && (
         <div
           className="news-pagination"
@@ -84,12 +96,12 @@ export default function NewsCarousel({ posts }: { posts: NewsCard[] }) {
             </button>
           </div>
           <div className="news-pagination-dots">
-            {posts.map((item, i) => (
+            {visible.map((item, i) => (
               <button
                 key={item.slug}
-                onClick={() => changePost(i)}
-                aria-label={t("news.showNews", { number: number(i + 1) })}
-                aria-pressed={index === i}
+                onClick={() => changePost(firstVisible + i)}
+                aria-label={t("news.showNews", { number: number(firstVisible + i + 1) })}
+                aria-pressed={index === firstVisible + i}
               />
             ))}
           </div>

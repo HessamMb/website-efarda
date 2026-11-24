@@ -5,6 +5,8 @@ import { newsPosts } from "@/data/news";
 import { postLocales, type PostContent } from "@/data/post-content";
 import { bootstrapPasswordHash, isUsername, validPassword } from "./credentials";
 
+import { seedNewsArchive } from "./seed-news-archive";
+
 let database: DatabaseSync | undefined;
 
 export function transaction<T>(db: DatabaseSync, run: () => T): T {
@@ -139,6 +141,8 @@ function initialize(db: DatabaseSync) {
     }
     db.prepare("INSERT INTO migrations (name) VALUES (?)").run("initial-news");
   }
+
+  seedNewsArchive(db);
 
   const username = process.env.EFARDA_ADMIN_USERNAME?.trim().toLowerCase();
   const passwordFile = process.env.EFARDA_ADMIN_PASSWORD_FILE;
