@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { requestReset, resetPassword, updateAccount, verifyEmail } from "./account-actions";
 
 type Flow =
-  | { mode: "account"; initialEmail: string; firstLogin: boolean }
+  | { mode: "account"; initialEmail?: string; firstLogin: boolean }
   | { mode: "forgot" }
   | { mode: "reset" | "verify"; token: string };
 
@@ -14,7 +14,7 @@ const labels = { account: "ذخیره تنظیمات حساب", forgot: "ارس�
 export default function AccountForm(props: Flow) {
   const { mode } = props;
   const [state, action, pending] = useActionState(actions[mode], { error: "" });
-  const passwordRequired = mode === "reset" || (mode === "account" && props.firstLogin);
+  const passwordRequired = mode === "reset" || (mode === "account" && (props.firstLogin || props.initialEmail === undefined));
 
   if (state.message) return <p className="admin-message" role="status">{state.message}</p>;
 
@@ -32,9 +32,11 @@ export default function AccountForm(props: Flow) {
           <label>رمز عبور فعلی
             <input name="currentPassword" type="password" dir="ltr" autoComplete="current-password" required maxLength={128} />
           </label>
-          <label>ایمیل بازیابی
-            <input name="email" type="email" dir="ltr" autoComplete="email" defaultValue={props.initialEmail} required maxLength={254} />
-          </label>
+          {props.initialEmail !== undefined && (
+            <label>ایمیل بازیابی
+              <input name="email" type="email" dir="ltr" autoComplete="email" defaultValue={props.initialEmail} required maxLength={254} />
+            </label>
+          )}
         </>
       )}
       {(mode === "account" || mode === "reset") && (

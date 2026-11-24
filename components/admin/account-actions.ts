@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { after } from "next/server";
-import { accountLink, sendAccountMail, validEmail } from "@/server/account-mail";
+import { accountLink, recoveryEmailEnabled, sendAccountMail, validEmail } from "@/server/account-mail";
 import { allowAccountMail, getAccountToken, issueAccountToken } from "@/server/account-tokens";
 import { checkPassword, isUsername, passwordHash, validPassword } from "@/server/credentials";
 import { getDb, transaction } from "@/server/database";
@@ -19,9 +19,10 @@ export async function updateAccount(_state: AccountResult, form: FormData): Prom
   const { user, hash: sessionHash } = session;
   const current = field(form, "currentPassword");
   const password = field(form, "password");
-  const email = field(form, "email").trim();
-  if (!validEmail(email)) return { error: "ایمیل بازیابی را بررسی کنید." };
-  if ((user.mustChangePassword || password) && (!validPassword(password) ||
+  const emailEnabled = recoveryEmailEnabled();
+  const email = emailEnabled ? field(form, "email").trim() : "";
+  if (emailEnabled && !validEmail(email)) return { error: "ایمیل بازیابی را بررسی کنید." };
+  if ((user.mustChangePassword || !emailEnabled || password) && (!validPassword(password) ||
       password !== field(form, "confirmation") || password === current)) {
     return { error: "رمز جدید باید متفاوت باشد، ۱۲ تا ۱۲۸ نویسه داشته باشد و با تکرار آن یکسان باشد." };
   }
@@ -40,7 +41,9 @@ export async function updateAccount(_state: AccountResult, form: FormData): Prom
     `).get(user.id, existing.password_hash, sessionHash, Date.now()) as
       { recovery_email: string | null; pending_email: string | null } | undefined;
     if (!account) return null;
-    const pending = email === account.recovery_email ? null : email;
+    const pending = emailEnabled
+      ? email === account.recovery_email ? null : email
+      : account.pending_email;
     db.prepare(`
       UPDATE users SET password_hash = ?, must_change_password = 0, pending_email = ? WHERE id = ?
     `).run(nextHash, pending, user.id);
@@ -51,8 +54,8 @@ export async function updateAccount(_state: AccountResult, form: FormData): Prom
     if (pending !== account.pending_email || password) {
       db.prepare("DELETE FROM account_tokens WHERE user_id = ? AND purpose = 'verify'").run(user.id);
     }
-    const token = pending && allowAccountMail("verify", user.username) ? issueAccountToken(user.id, "verify") : undefined;
-    return { token, pending };
+    const token = emailEnabled && pending && allowAccountMail("verify", user.username) ? issueAccountToken(user.id, "verify") : undefined;
+    return { token, pending: emailEnabled && pending };
   });
   if (!result) return { error: "نشست یا رمز عبور تغییر کرده است. دوباره وارد شوید." };
 

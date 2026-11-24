@@ -17,13 +17,15 @@ EFARDA_ADMIN_USERNAME=local-admin
 EFARDA_ADMIN_PASSWORD="replace-with-your-own-password"
 ```
 
-Start the server with `npm run dev` and open `http://localhost:3000/admin/login`. The dashboard initializes the account once, when there are no users. At first sign-in, the initial password must be replaced and a recovery email must be entered. The account page sends a confirmation link. Recovery becomes available after confirmation. This setup also applies once to existing accounts after the upgrade. After creating the initial account, remove the bootstrap password from the runtime environment. Use **کاربران** in the dashboard to create writer and reader accounts.
+Start the server with `npm run dev` and open `http://localhost:3000/admin/login`. The dashboard initializes the account once, when there are no users. At first sign-in, the initial password must be replaced. Recovery email enrollment is off by default, so SMTP is not needed for first sign-in or password changes. This setup also applies once to existing accounts after the upgrade. After creating the initial account, remove the bootstrap password from the runtime environment. Use **کاربران** in the dashboard to create writer and reader accounts.
 
 Three existing news posts are imported once into SQLite, preserving both languages, their links, and galleries. The default database is `.efarda/site.sqlite`. You can set `EFARDA_DB_PATH` to an absolute path to use an isolated review database. Account data, posts, sessions, and uploaded images are stored there.
 
 ## Account email
 
 `.env.local` is ignored by Git. Provision secrets in the server environment or as mounted secret files. For the bootstrap password, `EFARDA_ADMIN_PASSWORD_FILE` can point to a file outside the checkout containing a random temporary password. It takes precedence over `EFARDA_ADMIN_PASSWORD`, and is only read when there are no users. Remove the bootstrap secret after the account is created.
+
+After SMTP is ready, set `EFARDA_RECOVERY_EMAIL_ENABLED=true` to enable recovery email enrollment and confirmation in account settings.
 
 Configure the public origin and SMTP in the runtime environment to deliver recovery links and notify the site admin of successful panel sign-ins:
 

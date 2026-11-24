@@ -2,6 +2,10 @@ import nodemailer from "nodemailer";
 
 type Mail = { to: string; subject: string; text: string };
 
+export function recoveryEmailEnabled() {
+  return process.env.EFARDA_RECOVERY_EMAIL_ENABLED === "true";
+}
+
 export function validEmail(value: string) {
   return value.length <= 254 && /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9-]+(?:\.[A-Z0-9-]+)+$/i.test(value);
 }

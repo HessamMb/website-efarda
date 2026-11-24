@@ -8,6 +8,7 @@ services:
     restart: unless-stopped
     environment:
       EFARDA_SITE_URL: ${EFARDA_SITE_URL:-http://localhost:8080}
+      EFARDA_RECOVERY_EMAIL_ENABLED: ${EFARDA_RECOVERY_EMAIL_ENABLED:-false}
       EFARDA_SMTP_HOST: ${EFARDA_SMTP_HOST:-}
       EFARDA_SMTP_PORT: ${EFARDA_SMTP_PORT:-587}
       EFARDA_SMTP_USER: ${EFARDA_SMTP_USER:-}
