@@ -19,6 +19,12 @@ import {
   Plus,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import hamrahCard from "@/public/images/products/hamrah-card.webp";
+import hamrahCardLogo from "@/public/images/products/hamrah-card-logo.webp";
+import iranCard from "@/public/images/products/iran-card.webp";
+import iranCardLogo from "@/public/images/products/iran-card-logo.webp";
+import finnotech from "@/public/images/products/finnotech.webp";
+import finnotechLogo from "@/public/images/products/finnotech-logo.webp";
 import photoSizes from "@/public/images/news/manifest.json";
 
 const companyPhotos = (["ceo-appointment-team", "finex-meetings", "finex-roundtable", "finex-booth"] as const)
@@ -30,21 +36,24 @@ const companyPhotos = (["ceo-appointment-team", "finex-meetings", "finex-roundta
 function getContent(translate: TFunction) {
   const products = [
     {
-      image: "payment",
+      image: hamrahCard,
+      logo: hamrahCardLogo,
       label: translate("brand.hamrah"),
       title: translate("products.hamrah.title"),
       text: translate("products.hamrah.description"),
       href: "#hamrah",
     },
     {
-      image: "shopping",
+      image: iranCard,
+      logo: iranCardLogo,
       label: translate("brand.iran"),
       title: translate("products.iran.title"),
       text: translate("products.iran.description"),
       href: "#iran",
     },
     {
-      image: "business",
+      image: finnotech,
+      logo: finnotechLogo,
       label: translate("brand.fintech"),
       title: translate("products.fintech.title"),
       text: translate("products.fintech.description"),
@@ -80,8 +89,13 @@ function Home({ news }: { news: NewsCard[] }) {
           </div>
           <div className="product-grid">
             {products.map((p) => (
-              <article key={p.image}>
-                <Photo name={p.image} alt={p.title} />
+              <article key={p.href}>
+                <div className="product-media">
+                  <Image className="photo" src={p.image} alt="" sizes="(max-width: 599px) 92vw, (max-width: 1248px) 31vw, 378px" quality={90} />
+                  <span className="product-logo">
+                    <Image src={p.logo} alt="" sizes="80px" quality={90} />
+                  </span>
+                </div>
                 <span className="eyebrow">{p.label}</span>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
