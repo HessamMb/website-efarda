@@ -22,6 +22,9 @@ import type { LucideIcon } from "lucide-react";
 import hamrahCard from "@/public/images/products/hamrah-card.webp";
 import iranCard from "@/public/images/products/iran-card.webp";
 import finnotech from "@/public/images/products/finnotech.webp";
+import hamrahCardTransfer from "@/public/images/products/hamrah-card-transfer.webp";
+import iranCardPlatinum from "@/public/images/products/iran-card-platinum.webp";
+import finnotechOpenBanking from "@/public/images/products/finnotech-open-banking.webp";
 import photoSizes from "@/public/images/news/manifest.json";
 
 const companyPhotos = (["ceo-appointment-team", "finex-meetings", "finex-roundtable", "finex-booth"] as const)
@@ -110,7 +113,13 @@ function Home({ news }: { news: NewsCard[] }) {
               <p>{translate("solutions.description")}</p>
             </div>
             <article id="hamrah" className="solution solution-one">
-              <Photo name="everyday" alt={translate("images.everyday")} />
+              <Image
+                className="photo"
+                src={hamrahCardTransfer}
+                alt={translate("images.everyday")}
+                sizes="(max-width: 599px) 92vw, (max-width: 1099px) 44vw, 310px"
+                quality={90}
+              />
               <div>
                 <span className="eyebrow">
                   {translate("solutions.hamrah.label")}
@@ -123,7 +132,13 @@ function Home({ news }: { news: NewsCard[] }) {
               </div>
             </article>
             <article id="iran" className="solution solution-two">
-              <Photo name="flowers" alt={translate("images.flowers")} />
+              <Image
+                className="photo"
+                src={iranCardPlatinum}
+                alt={translate("images.flowers")}
+                sizes="(max-width: 599px) 92vw, (max-width: 1099px) 44vw, 310px"
+                quality={90}
+              />
               <div>
                 <span className="eyebrow">
                   {translate("solutions.iran.label")}
@@ -136,7 +151,13 @@ function Home({ news }: { news: NewsCard[] }) {
               </div>
             </article>
             <article className="solution solution-three">
-              <Photo name="solutions" alt={translate("images.solutions")} />
+              <Image
+                className="photo"
+                src={finnotechOpenBanking}
+                alt={translate("images.solutions")}
+                sizes="(max-width: 599px) 92vw, (max-width: 1099px) 44vw, 310px"
+                quality={90}
+              />
               <div>
                 <span className="eyebrow">
                   {translate("solutions.fintech.label")}
