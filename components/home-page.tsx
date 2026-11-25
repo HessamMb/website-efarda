@@ -219,7 +219,7 @@ function Home({ news }: { news: NewsCard[] }) {
             </div>
             <div className="portraits">
               {companyPhotos.map(({ src, width, height }) => (
-                <Image key={src} className="photo" src={src} width={width} height={height} alt="" sizes="(max-width: 599px) 45vw, 164px" />
+                <Image key={src} className="photo" src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${src}`} width={width} height={height} alt="" sizes="(max-width: 599px) 45vw, 164px" />
               ))}
             </div>
             <div className="about-motto">{translate("about.motto")}</div>

@@ -18,12 +18,12 @@ export default function PostBlocks({ blocks }: { blocks: PostBlock[] }) {
         return (
           <figure key={index}>
             <Image
-              src={block.image.src}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${block.image.src}`}
               alt={block.image.alt}
               width={block.image.width}
               height={block.image.height}
               sizes="(max-width: 800px) 100vw, 850px"
-              unoptimized={block.image.src.startsWith("/api/post-images/")}
+
             />
           </figure>
         );

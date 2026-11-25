@@ -24,8 +24,8 @@ function newsSlides(posts: NewsCard[]) {
   for (const post of posts) {
     // The archive uses homepage illustrations where a source photo was unavailable.
     const cover = post.content.images.find(({ src }) =>
-      !used.has(src) && (src.startsWith("/api/post-images/") ||
-        (src.startsWith("/images/news/") && src !== "/images/news/financial-event-speaker.webp")),
+      !used.has(src) && src.startsWith("/images/news/") &&
+        src !== "/images/news/financial-event-speaker.webp",
     );
     if (!cover) continue;
     slides.push({ post, cover });
@@ -38,13 +38,14 @@ function newsSlides(posts: NewsCard[]) {
 function HeroPhoto({ cover, secondary = false }: { cover: CoverImage; secondary?: boolean }) {
   return (
     <Image
-      {...cover}
+      src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${cover.src}`}
+      width={cover.width}
+      height={cover.height}
       alt={cover.alt}
       className="photo"
       sizes={secondary ? "(max-width: 599px) 45vw, 216px" : "(max-width: 599px) 90vw, (max-width: 1099px) 55vw, 400px"}
       quality={90}
       loading={secondary ? "lazy" : "eager"}
-      unoptimized={cover.src.startsWith("/api/post-images/")}
     />
   );
 }

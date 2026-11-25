@@ -25,7 +25,7 @@ export function pageMetadata(locale: Locale): Metadata {
   const messages = locale === "en" ? en : fa;
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   return {
-    metadataBase: new URL(process.env.EFARDA_SITE_URL || "http://localhost:3000"),
+    metadataBase: new URL(process.env.EFARDA_SITE_URL || (base ? "https://hessammb.github.io" : "http://localhost:3000")),
     title: messages["metadata.title"],
     description: messages["metadata.description"],
     alternates: {

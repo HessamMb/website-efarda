@@ -126,7 +126,7 @@ export default function NewsDetail({ post, related }: { post: PublishedPost; rel
                           alt=""
                           width={cover.width}
                           height={cover.height}
-                          unoptimized={cover.src.startsWith("/api/post-images/")}
+
                           sizes="(max-width: 599px) 90vw, (max-width: 1000px) 45vw, 380px"
                         />
                         <span className="eyebrow">{t(item.content.categoryKey)}</span>

@@ -51,7 +51,7 @@ export default function NewsGallery({
           : "(max-width: 1248px) 95vw, 1184px"
       }
       quality={90}
-      unoptimized={current.src.startsWith("/api/post-images/")}
+
       loading={compact ? "lazy" : "eager"}
     />
   );
@@ -130,7 +130,7 @@ export default function NewsGallery({
                 width={photo.width}
                 height={photo.height}
                 sizes="72px"
-                unoptimized={photo.src.startsWith("/api/post-images/")}
+
               />
             </button>
           ))}

@@ -1,7 +1,7 @@
 import HomePage from "@/components/home-page";
-import { getNewsCards } from "@/server/posts";
+import { getNewsCards } from "@/data/published-news";
 
-export default async function Page() {
-  const news = await getNewsCards("en");
+export default function Page() {
+  const news = getNewsCards("en");
   return <HomePage locale="en" news={news} />;
 }
