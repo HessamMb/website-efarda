@@ -181,7 +181,8 @@ function Home({ news }: { news: NewsCard[] }) {
             <Image
               src={hamrahCardInHand}
               alt={translate("images.app")}
-              sizes="(max-width: 599px) 82vw, (max-width: 1099px) 44vw, 440px"
+              fill
+              sizes="(max-width: 599px) 92vw, (max-width: 1248px) 37vw, 438px"
               quality={90}
             />
           </div>

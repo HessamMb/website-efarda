@@ -14,4 +14,4 @@ The product grid uses locally stored product visuals in `public/images/products/
 
 The solutions cards use Hamrah Card's card-to-card transfer visual from its [Myket listing](https://myket.ir/app/com.adpdigital.mbs.ayande), a portrait crop of the Iran Card Platinum artwork above, and the open banking illustration from [Finnotech](https://finnotech.ir/).
 
-The lower app banner uses a photograph of Hamrah Card on a handheld phone from [Khane Sarmaye’s Hamrah Card guide](https://khanesarmaye.com/hamrahcard/).
+The lower app banner uses a center crop of a photograph of Hamrah Card on a handheld phone from [Khane Sarmaye’s Hamrah Card guide](https://khanesarmaye.com/hamrahcard/).

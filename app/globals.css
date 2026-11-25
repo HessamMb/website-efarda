@@ -502,24 +502,18 @@ small {
   background: var(--deep);
   color: #fff;
   display: grid;
-  grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
+  grid-template-columns: minmax(0, 37fr) minmax(0, 63fr);
   border-radius: 12px;
   overflow: hidden;
-  min-height: 364px;
+  min-height: 320px;
 }
 .promo-media {
-  display: grid;
-  place-items: center;
+  position: relative;
   min-width: 0;
-  padding: 24px;
-  background: var(--surface-mint);
 }
 .promo-media img {
-  width: auto;
-  max-width: 100%;
-  height: clamp(245px, 29vw, 330px);
-  object-fit: contain;
-  border-radius: 8px;
+  object-fit: cover;
+  object-position: center 42%;
 }
 .promo-copy {
   align-self: center;
@@ -1287,7 +1281,7 @@ footer {
   }
   .promo-media {
     order: 1;
-    padding: 18px;
+    aspect-ratio: 4 / 3;
   }
   .about {
     margin-top: 46px;
