@@ -508,10 +508,14 @@ small {
   min-height: 320px;
 }
 .promo-media {
-  position: relative;
   min-width: 0;
+  contain: size;
+  overflow: hidden;
 }
 .promo-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center 42%;
 }
