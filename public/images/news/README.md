@@ -7,3 +7,5 @@
 The co-banking summary was checked against the official company feed at https://ir.linkedin.com/company/efarda-company/. Links labelled as a company page point to that feed, rather than claiming to be a permalink to an individual post. The appointment summary links to its specific announcement. No guessed publication dates, quotations, or unrelated personal news were added.
 
 Images were converted to WebP without upscaling. The manifest records native pixel dimensions. Source images are not fetched from LinkedIn at runtime.
+
+- `transaction-product-awards.webp` is the photograph supplied with the news about the two Product of the Year awards at the Iran Transaction event.

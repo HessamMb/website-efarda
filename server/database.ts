@@ -5,7 +5,7 @@ import { newsPosts } from "@/data/news";
 import { postLocales, type PostContent } from "@/data/post-content";
 import { bootstrapPasswordHash, isUsername, validPassword } from "./credentials";
 
-import { seedNewsArchive } from "./seed-news-archive";
+import { refreshAwardsSeed, seedNewsArchive } from "./seed-news-archive";
 
 let database: DatabaseSync | undefined;
 
@@ -143,6 +143,7 @@ function initialize(db: DatabaseSync) {
   }
 
   seedNewsArchive(db);
+  refreshAwardsSeed(db);
 
   const finexUpdate = "finex-exhibition-venue";
   if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get(finexUpdate)) {

@@ -58,15 +58,23 @@
   {
     "slug": "transaction-product-awards",
     "category": "exhibition",
-    "cover": "journal",
+    "cover": "transaction-product-awards",
     "sourceUrl": "https://efarda.ir/2026/11/04/%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7-%D9%81%D8%B1%D8%AF%D8%A7-%D8%A8%D8%A7-%DA%A9%D8%B3%D8%A8-%D8%AF%D9%88-%D8%B9%D9%86%D9%88%D8%A7%D9%86-%D9%85%D8%AD%D8%B5%D9%88%D9%84-%D8%A8%D8%B1%D8%AA%D8%B1-%D8%B3/",
     "title": {
-      "fa": "پت‌کارت و ایران‌کارت نوین برگزیدهٔ رویداد تراکنش شدند",
-      "en": "Pet Card and Iran Card Novin win product awards"
+      "fa": "ارتباط فردا با کسب دو عنوان محصول برتر سال؛ تبلور نوآوری در مسیر تحول راهبردی",
+      "en": "Ertebat Farda wins two Product of the Year awards as part of its strategic transformation"
     },
     "excerpt": {
       "fa": "هر دو محصول ارتباط فردا در جشنوارهٔ هم‌زمان با دوازدهمین رویداد تراکنش ایران عنوان محصول برتر سال را دریافت کردند.",
       "en": "Both Ertebat Farda products received Product of the Year recognition at the 12th Iran Transaction event."
+    },
+    "body": {
+      "fa": "محصولات «پت‌کارت» و «ایران‌کارت نوین» از مجموعه محصولات ارتباط فردا، در دوازدهمین رویداد تراکنش ایران موفق به دریافت عنوان محصول برتر سال شدند؛ افتخاری که جلوه‌ای از توانمندی‌های تخصصی و رویکرد نوآورانه این مجموعه در توسعه راهکارهای نوین مالی و پرداخت است.",
+      "en": "Pet Card and Iran Card Novin, both Ertebat Farda products, earned Product of the Year awards at the 12th Iran Transaction event. The awards highlight the group’s expertise and approach to developing new financial and payment solutions."
+    },
+    "imageAlt": {
+      "fa": "سه نفر در غرفه ارتباط فردا با دو تندیس رویداد تراکنش ایران",
+      "en": "Three people at the Ertebat Farda booth with two Iran Transaction trophies"
     }
   },
   {
