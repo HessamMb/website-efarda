@@ -4,18 +4,15 @@ import Image from "next/image";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { LocaleProvider, type Locale } from "@/i18n/provider";
-import { Photo, LinkArrow } from "@/components/home-ui";
+import { LinkArrow } from "@/components/home-ui";
 import { ContactSection, QuickLinks, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import NewsHero from "@/components/journal/news-hero";
 import JournalSection from "@/components/journal/journal-section";
 import {
-  Smartphone,
   Sprout,
   Users,
   Sparkles,
   MessagesSquare,
-  Wallet,
-  ScanLine,
   Plus,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -179,7 +176,13 @@ function Home({ news }: { news: NewsCard[] }) {
         </section>
         <JournalSection news={news} />
         <section id="app" className="app-promo container">
-          <Photo name="app" alt={translate("images.app")} />
+          <Image
+            className="photo"
+            src={hamrahCard}
+            alt={translate("images.app")}
+            sizes="(max-width: 599px) 92vw, (max-width: 1248px) 55vw, 650px"
+            quality={90}
+          />
           <div className="promo-copy">
             <span className="eyebrow">{translate("app.eyebrow")}</span>
             <h2>{translate("app.title")}</h2>
@@ -187,21 +190,6 @@ function Home({ news }: { news: NewsCard[] }) {
             <LinkArrow href="#faq" className="button light">
               {translate("app.cta")}
             </LinkArrow>
-          </div>
-          <div className="phone-wrap">
-            <div className="phone">
-              <div className="phone-speaker" />
-              <h3>{translate("brand.hamrah")}</h3>
-              <div className="phone-card">
-                <Smartphone />
-                <span>{translate("app.phoneCard")}</span>
-              </div>
-              <div className="phone-tools">
-                <Wallet />
-                <ScanLine />
-              </div>
-              <small>{translate("app.phoneDisclaimer")}</small>
-            </div>
           </div>
         </section>
         <section id="about" className="about">

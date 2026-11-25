@@ -502,17 +502,18 @@ small {
   background: var(--deep);
   color: #fff;
   display: grid;
-  grid-template-columns: 31.5% 40% 28.5%;
+  grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
   border-radius: 12px;
   overflow: hidden;
   min-height: 364px;
 }
 .app-promo > .photo {
   border-radius: 0;
-  min-height: 364px;
+  min-height: 0;
 }
 .promo-copy {
-  padding: 0 22px 35px;
+  align-self: center;
+  padding: clamp(24px, 4vw, 48px);
 }
 .promo-copy .eyebrow {
   color: #a8cdbb;
@@ -525,69 +526,6 @@ small {
   color: #a8cdbb;
   margin-bottom: 20px;
   font-size: 13px;
-}
-.phone-wrap {
-  position: relative;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  direction: inherit;
-  background: radial-gradient(
-    ellipse at bottom,
-    #ffffff05 65%,
-    transparent 65%
-  );
-}
-.phone {
-  background: #f5f8f5;
-  border: 8px solid #193c30;
-  border-radius: 34px;
-  width: 205px;
-  height: 350px;
-  transform: rotate(-9deg) translateY(24px);
-  padding: 15px;
-  color: var(--green);
-  text-align: center;
-  flex-shrink: 0;
-}
-.phone-speaker {
-  height: 5px;
-  width: 54px;
-  background: #254138;
-  border-radius: 10px;
-  margin: 0 auto 18px;
-}
-.phone h3 {
-  font-size: 20px;
-}
-.phone-card {
-  margin: 20px 0 15px;
-  background: #198961;
-  color: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  font-size: 12px;
-  min-height: 110px;
-}
-.phone-card svg {
-  margin-bottom: 10px;
-}
-.phone-tools {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.phone-tools svg {
-  padding: 12px;
-  width: 57px;
-  height: 57px;
-  background: #eaf5ee;
-  border-radius: 10px;
-}
-.phone small {
-  font-size: 8px;
-  color: var(--muted);
 }
 .about {
   background: linear-gradient(#fff, #edf6f0);
@@ -956,28 +894,7 @@ footer {
     padding: 16px 8px;
   }
   .app-promo {
-    display: grid;
-    grid-template-columns: 53% 47%;
-  }
-  .promo-copy {
-    grid-column: 1/-1;
-    grid-row: 1;
-    padding: 30px 32px 0;
-  }
-  .app-promo > .photo {
-    grid-column: 2;
-    grid-row: 2;
-    height: 365px;
-    min-height: 0;
-  }
-  .phone-wrap {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .phone {
-    width: 210px;
-    height: 350px;
-    transform: rotate(-9deg) translateY(15px);
+    min-height: 300px;
   }
   .about {
     margin-top: 55px;
@@ -1340,10 +1257,12 @@ footer {
   .app-promo {
     display: flex;
     flex-direction: column;
+    min-height: 0;
   }
   .promo-copy {
     order: 0;
-    padding: 24px 24px;
+    align-self: stretch;
+    padding: 24px;
   }
   .promo-copy .eyebrow {
     font-size: 10px;
@@ -1360,22 +1279,7 @@ footer {
     order: 1;
     height: auto;
     min-height: 0;
-    aspect-ratio: 350/270;
-  }
-  .phone-wrap {
-    order: 2;
-    height: 440px;
-  }
-  .phone {
-    width: 215px;
-    height: 365px;
-    transform: rotate(-9deg) translateY(0);
-  }
-  .phone h3 {
-    font-size: 20px;
-  }
-  .phone-card {
-    min-height: 120px;
+    aspect-ratio: 16 / 9;
   }
   .about {
     margin-top: 46px;
@@ -1669,9 +1573,6 @@ html[dir="ltr"] .hero h1 {
 html[dir="ltr"] .values strong {
   max-width: 150px;
   white-space: normal;
-}
-html[dir="ltr"] .phone h3 {
-  font-size: 18px;
 }
 @media (min-width: 600px) and (max-width: 1099px) {
   html[dir="ltr"] .hero h1 {
