@@ -69,13 +69,26 @@
       "en": "Both Ertebat Farda products received Product of the Year recognition at the 12th Iran Transaction event."
     },
     "body": {
-      "fa": "محصولات «پت‌کارت» و «ایران‌کارت نوین» از مجموعه محصولات ارتباط فردا، در دوازدهمین رویداد تراکنش ایران موفق به دریافت عنوان محصول برتر سال شدند؛ افتخاری که جلوه‌ای از توانمندی‌های تخصصی و رویکرد نوآورانه این مجموعه در توسعه راهکارهای نوین مالی و پرداخت است.",
-      "en": "Pet Card and Iran Card Novin, both Ertebat Farda products, earned Product of the Year awards at the 12th Iran Transaction event. The awards highlight the group’s expertise and approach to developing new financial and payment solutions."
+      "fa": [
+        "محصولات «پت‌کارت» و «ایران‌کارت نوین» از مجموعه محصولات ارتباط فردا، در دوازدهمین رویداد تراکنش ایران موفق به دریافت عنوان محصول برتر سال شدند؛ افتخاری که جلوه‌ای از توانمندی‌های تخصصی و رویکرد نوآورانه این مجموعه در توسعه راهکارهای نوین مالی و پرداخت است.",
+        "جشنوارهٔ انتخاب محصولات برتر سال در کنار دوازدهمین رویداد تراکنش ایران برگزار شد. با اعلام نتایج جشنواره، هر دو محصول ارتباط فردا در میان برگزیدگان قرار گرفتند.",
+        "هم‌زمانی این دستاورد با اجرای برنامهٔ تحول راهبردی هلدینگ اهمیت ویژه‌ای دارد. گروه در این دوره روی گسترش سبد محصولات، پاسخ به نیازهای گوناگون بازار و بهبود تجربهٔ مشتریان و شرکای تجاری تمرکز کرده است.",
+        "یکی از محورهای برنامهٔ توسعه، طراحی خدماتی است که بتوانند با چند بانک کار کنند یا خارج از چارچوب خدمات سنتی بانک‌ها ارائه شوند. تنوع در منابع درآمد و توسعهٔ همکاری‌های بلندمدت نیز بخشی از برنامه است تا گروه ظرفیت کسب‌وکار و جایگاه رقابتی خود را در صنعت مالی تقویت کند.",
+        "این دو جایزه حاصل کار مشترک تیم‌های تخصصی ارتباط فرداست و نتیجهٔ تلاش آن‌ها برای تبدیل ایده‌های تازه به محصولات مالی و پرداختی قابل استفاده را نشان می‌دهد."
+      ],
+      "en": [
+        "Pet Card and Iran Card Novin, both Ertebat Farda products, earned Product of the Year awards at the 12th Iran Transaction event. The awards highlight the group’s expertise and approach to developing new financial and payment solutions.",
+        "The Product of the Year festival took place alongside the 12th Iran Transaction event. Both entries from Ertebat Farda were recognized when the results were announced.",
+        "The awards come as the holding implements its strategic transformation program. The group is expanding its portfolio to address a wider range of market needs and improve the experience of customers and business partners.",
+        "The development program includes services that work across multiple banks or extend beyond traditional banking. The group is also diversifying its sources of revenue and building long-term partnerships to expand its business capacity and strengthen its position in the financial industry.",
+        "The awards reflect the work of teams across Ertebat Farda and their efforts to turn new ideas into practical financial and payment products."
+      ]
     },
     "imageAlt": {
       "fa": "سه نفر در غرفه ارتباط فردا با دو تندیس رویداد تراکنش ایران",
       "en": "Three people at the Ertebat Farda booth with two Iran Transaction trophies"
-    }
+    },
+    "publishSourceLink": false
   },
   {
     "slug": "behin-farda-chair",

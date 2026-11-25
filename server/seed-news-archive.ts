@@ -24,7 +24,7 @@ function archiveContent(article: (typeof archive)[number], locale: Locale): Post
     title: article.title[locale],
     excerpt: article.excerpt[locale],
     categoryKey: `news.category.${article.category}`,
-    blocks: article.body ? [{ kind: "paragraph", text: article.body[locale] }] : [],
+    blocks: article.body?.[locale].map((text) => ({ kind: "paragraph", text })) ?? [],
     images: [{
       src: `/images/${eventPhoto ? "news" : "home"}/${article.cover}.webp`,
       width: cover.width,
@@ -34,8 +34,8 @@ function archiveContent(article: (typeof archive)[number], locale: Locale): Post
         : ""),
     }],
     imageNote: eventPhoto ? undefined : locale === "fa" ? "تصویر تزیینی" : "Illustrative image",
-    sourceUrl: article.sourceUrl,
-    isSummary: true,
+    sourceUrl: article.publishSourceLink === false ? undefined : article.sourceUrl,
+    isSummary: article.publishSourceLink !== false,
   };
 }
 
@@ -76,16 +76,19 @@ export function seedNewsArchive(db: DatabaseSync) {
 }
 
 export function refreshAwardsSeed(db: DatabaseSync) {
-  const migration = "transaction-product-awards-photo-and-copy";
+  const migration = "transaction-product-awards-full-report";
   if (db.prepare("SELECT 1 FROM migrations WHERE name = ?").get(migration)) return;
 
   const article = archive.find(({ slug }) => slug === "transaction-product-awards");
   if (article) {
     const update = db.prepare(`
       UPDATE translations SET draft = ?, published = ?, revision = revision + 1
-      WHERE slug = ? AND locale = ? AND revision = 1 AND draft = published
+      WHERE slug = ? AND locale = ? AND draft = published
         AND json_extract(published, '$.sourceUrl') = ?
-        AND json_extract(published, '$.images[0].src') = '/images/home/journal.webp'
+        AND (
+          (revision = 1 AND json_extract(published, '$.images[0].src') = '/images/home/journal.webp')
+          OR (revision = 2 AND json_extract(published, '$.images[0].src') = '/images/news/transaction-product-awards.webp')
+        )
     `);
     for (const locale of postLocales) {
       const snapshot = JSON.stringify(archiveContent(article, locale));
