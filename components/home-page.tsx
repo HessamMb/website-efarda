@@ -19,7 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import hamrahCard from "@/public/images/products/hamrah-card.webp";
 import iranCard from "@/public/images/products/iran-card.webp";
 import finnotech from "@/public/images/products/finnotech.webp";
-import hamrahCardBillPay from "@/public/images/products/hamrah-card-bill-pay.webp";
+import hamrahCardInHand from "@/public/images/products/hamrah-card-in-hand.webp";
 import hamrahCardTransfer from "@/public/images/products/hamrah-card-transfer.webp";
 import iranCardPlatinum from "@/public/images/products/iran-card-platinum.webp";
 import finnotechOpenBanking from "@/public/images/products/finnotech-open-banking.webp";
@@ -179,9 +179,9 @@ function Home({ news }: { news: NewsCard[] }) {
         <section id="app" className="app-promo container">
           <div className="promo-media">
             <Image
-              src={hamrahCardBillPay}
+              src={hamrahCardInHand}
               alt={translate("images.app")}
-              sizes="(max-width: 599px) 230px, 295px"
+              sizes="(max-width: 599px) 82vw, (max-width: 1099px) 44vw, 440px"
               quality={90}
             />
           </div>
