@@ -141,6 +141,8 @@
   "news.category.exhibition": "Events / FINEX",
   "news.category.leadership": "Holding CEO / Co-banking",
   "news.category.organization": "Holding news / Appointment",
+  "news.pauseRotation": "Pause rotation",
+  "news.playRotation": "Start rotation",
   "news.chooseArchivePost": "Choose a story from the archive",
   "news.read": "Read news",
   "news.gallery": "News photo gallery",

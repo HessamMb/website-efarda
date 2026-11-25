@@ -1,17 +1,14 @@
 "use client";
-import { newsHref, type NewsCard } from "@/data/post-content";
+import type { NewsCard } from "@/data/post-content";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { LocaleProvider, type Locale } from "@/i18n/provider";
 import { Photo, LinkArrow } from "@/components/home-ui";
 import { ContactSection, QuickLinks, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import NewsHero from "@/components/journal/news-hero";
 import JournalSection from "@/components/journal/journal-section";
 import {
-  ArrowLeft,
-  ArrowUpLeft,
   Smartphone,
   Sprout,
   Users,
@@ -22,6 +19,13 @@ import {
   Plus,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import photoSizes from "@/public/images/news/manifest.json";
+
+const companyPhotos = (["ceo-appointment-team", "finex-meetings", "finex-roundtable", "finex-booth"] as const)
+  .map((name) => ({
+    src: `/images/news/${name}.webp`,
+    ...photoSizes[name],
+  }));
 
 function getContent(translate: TFunction) {
   const products = [
@@ -57,107 +61,13 @@ export default function HomePage({ locale, news }: { locale: Locale; news: NewsC
   );
 }
 function Home({ news }: { news: NewsCard[] }) {
-  const { t: translate, i18n } = useTranslation();
+  const { t: translate } = useTranslation();
   const { products } = getContent(translate);
-  const formatNumber = (number: number) =>
-    new Intl.NumberFormat(i18n.language, { minimumIntegerDigits: 2 }).format(
-      number,
-    );
-  const [slide, setSlide] = useState(0);
-  const slides = news.slice(0, 5);
-  const slideCount = Math.max(slides.length, 1);
-  const activeSlide = slide % slideCount;
-  const featured = slides[activeSlide];
-  const cover = featured?.content.images[0];
-  const href = featured ? newsHref(featured.slug, i18n.language as Locale) : "#about";
   return (
     <>
       <SiteHeader />
       <main>
-        <section className={`hero container${featured ? " hero--news" : ""}`}>
-          <div className="hero-copy">
-            <span className="eyebrow">{translate(featured ? "news.tab" : "hero.eyebrow")}</span>
-            <h1 aria-live="polite">
-              {featured ? featured.content.title : (
-                <>{translate("hero.titleFirst")}<br />{translate("hero.titleSecond")}</>
-              )}
-            </h1>
-            <div className="accent-line" />
-            <p>{featured ? featured.content.excerpt : translate("hero.description")}</p>
-            <Link className="button arrow-link" href={href}>
-              {translate(featured ? "news.read" : "hero.cta")}
-              <ArrowLeft size={19} />
-            </Link>
-            {featured && <LinkArrow href="#journal">{translate("journal.all")}</LinkArrow>}
-          </div>
-          <div className="hero-pictures">
-            <Link href={href} className="hero-main-photo">
-              {cover ? (
-                <Image
-                  className="photo"
-                  src={cover.src}
-                  alt={cover.alt}
-                  width={cover.width}
-                  height={cover.height}
-                  sizes="(max-width: 599px) 90vw, (max-width: 1099px) 55vw, 366px"
-                  loading="eager"
-                  quality={90}
-                  unoptimized={cover.src.startsWith("/api/post-images/")}
-                />
-              ) : <Photo eager name="hero" alt={translate("images.hero")} />}
-              <div>
-                {translate(featured ? featured.content.categoryKey : "hero.caption")}
-                <ArrowUpLeft size={23} />
-              </div>
-            </Link>
-            <div className="anniversary">
-              <div className="building">
-                <Photo name="building" alt={translate("images.building")} />
-                <div className="anniversary-label">
-                  <b>{translate("hero.years")}</b>
-                  <strong>
-                    {translate("hero.yearsCaptionFirst")}
-                    <br />
-                    {translate("hero.yearsCaptionSecond")}
-                  </strong>
-                </div>
-              </div>
-              {slides.length > 1 && (
-                <div className="slider-controls">
-                  <button
-                    aria-label={translate("news.next")}
-                    onClick={() => setSlide((activeSlide + 1) % slideCount)}
-                  >
-                    <ArrowLeft />
-                  </button>
-                  <small>{formatNumber(activeSlide + 1)} / {formatNumber(slideCount)}</small>
-                  <button
-                    aria-label={translate("news.previous")}
-                    onClick={() => setSlide((activeSlide + slideCount - 1) % slideCount)}
-                  >
-                    <ArrowLeft />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="hero-bottom">
-            <small>{translate("brand.tagline")}</small>
-            <div className="dots">
-              {slides.length > 1 && slides.map((item, i) => (
-                <button
-                  key={item.slug}
-                  aria-label={translate("news.showNews", {
-                    number: formatNumber(i + 1),
-                  })}
-                  aria-pressed={activeSlide === i}
-                  className={activeSlide === i ? "active" : ""}
-                  onClick={() => setSlide(i)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        <NewsHero posts={news} />
         <section className="quick-band">
           <div className="container">
             <QuickLinks />
@@ -288,12 +198,8 @@ function Home({ news }: { news: NewsCard[] }) {
               <LinkArrow href="#contact">{translate("about.cta")}</LinkArrow>
             </div>
             <div className="portraits">
-              {[1, 2, 3, 4].map((i) => (
-                <Photo
-                  key={i}
-                  name={`portrait${i}`}
-                  alt={translate("images.portraits")}
-                />
+              {companyPhotos.map(({ src, width, height }) => (
+                <Image key={src} className="photo" src={src} width={width} height={height} alt="" sizes="(max-width: 599px) 45vw, 164px" />
               ))}
             </div>
             <div className="about-motto">{translate("about.motto")}</div>

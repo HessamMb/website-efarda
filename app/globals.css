@@ -237,31 +237,9 @@ small {
   justify-content: space-between;
   font-size: 13px;
 }
-.anniversary {
+.hero-side {
   width: 216px;
   flex-shrink: 0;
-}
-.building {
-  position: relative;
-  height: 302px;
-}
-.anniversary-label {
-  position: absolute;
-  inset: 96px 16px 18px;
-  background: var(--deep);
-  color: #fff;
-  border-radius: 6px;
-  text-align: start;
-  padding: 20px;
-}
-.anniversary-label b {
-  display: block;
-  font-size: 64px;
-  line-height: 1.4;
-}
-.anniversary-label strong {
-  font-size: 15px;
-  line-height: 2;
 }
 .slider-controls {
   display: flex;
@@ -870,18 +848,9 @@ footer {
   .hero-main-photo > .photo {
     height: 362px;
   }
-  .anniversary {
+  .hero-side {
     flex: 1;
     width: auto;
-  }
-  .building {
-    height: 372px;
-  }
-  .anniversary-label {
-    inset: 166px 16px 18px;
-  }
-  .anniversary-label b {
-    font-size: 40px;
   }
   .hero-bottom {
     margin-top: 4px;
@@ -1163,25 +1132,8 @@ footer {
     padding: 17px 22px;
     font-size: 12px;
   }
-  .anniversary {
+  .hero-side {
     width: 100%;
-  }
-  .building {
-    height: 270px;
-  }
-  .building > .photo {
-    object-position: center 42%;
-  }
-  .anniversary-label {
-    inset: 64px 16px 18px auto;
-    width: 185px;
-    padding: 10px 18px;
-  }
-  .anniversary-label b {
-    font-size: 46px;
-  }
-  .anniversary-label strong {
-    font-size: 14px;
   }
   .slider-controls {
     margin-top: 20px;
@@ -1694,13 +1646,6 @@ html[dir="ltr"] .product-grid article {
 html[dir="ltr"] .arrow-link > svg,
 html[dir="ltr"] .hero-main-photo > div > svg {
   transform: scaleX(-1);
-}
-html[dir="ltr"] .anniversary-label {
-  padding: 16px;
-}
-html[dir="ltr"] .anniversary-label strong {
-  font-size: 14px;
-  line-height: 1.5;
 }
 html[dir="ltr"] .about-copy {
   max-width: 640px;
@@ -2224,4 +2169,44 @@ html[dir="ltr"] .phone h3 {
   border: 1px solid var(--border-default);
   border-radius: 6px;
   background: white;
+}
+
+.hero.hero--text-only {
+  grid-template-columns: minmax(0, 720px);
+}
+.hero-next-story {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 275px;
+  align-items: end;
+  border-radius: 8px;
+  background: var(--deep);
+  color: white;
+}
+.hero-next-story > .photo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+}
+.hero-next-story > span {
+  background: var(--deep);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.hero-motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green);
+  font-size: 12px;
+}
+@media (max-width: 599px) {
+  .hero-next-story {
+    min-height: 150px;
+  }
 }

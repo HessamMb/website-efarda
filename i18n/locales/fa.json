@@ -141,6 +141,8 @@
   "news.category.exhibition": "رویدادها / فینکس",
   "news.category.leadership": "مدیرعامل هلدینگ / هم‌بانکی",
   "news.category.organization": "اخبار هلدینگ / انتصاب",
+  "news.pauseRotation": "توقف پخش خودکار",
+  "news.playRotation": "شروع پخش خودکار",
   "news.chooseArchivePost": "انتخاب خبر از آرشیو",
   "news.read": "خواندن خبر",
   "news.gallery": "گالری تصاویر خبر",
