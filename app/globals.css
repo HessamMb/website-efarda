@@ -507,9 +507,19 @@ small {
   overflow: hidden;
   min-height: 364px;
 }
-.app-promo > .photo {
-  border-radius: 0;
-  min-height: 0;
+.promo-media {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 24px;
+  background: var(--surface-mint);
+}
+.promo-media img {
+  width: auto;
+  max-width: 100%;
+  height: clamp(245px, 29vw, 330px);
+  object-fit: contain;
+  border-radius: 8px;
 }
 .promo-copy {
   align-self: center;
@@ -1275,11 +1285,9 @@ footer {
     font-size: 13px;
     margin-bottom: 18px;
   }
-  .app-promo > .photo {
+  .promo-media {
     order: 1;
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 16 / 9;
+    padding: 18px;
   }
   .about {
     margin-top: 46px;

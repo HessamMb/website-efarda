@@ -19,6 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import hamrahCard from "@/public/images/products/hamrah-card.webp";
 import iranCard from "@/public/images/products/iran-card.webp";
 import finnotech from "@/public/images/products/finnotech.webp";
+import hamrahCardBillPay from "@/public/images/products/hamrah-card-bill-pay.webp";
 import hamrahCardTransfer from "@/public/images/products/hamrah-card-transfer.webp";
 import iranCardPlatinum from "@/public/images/products/iran-card-platinum.webp";
 import finnotechOpenBanking from "@/public/images/products/finnotech-open-banking.webp";
@@ -176,13 +177,14 @@ function Home({ news }: { news: NewsCard[] }) {
         </section>
         <JournalSection news={news} />
         <section id="app" className="app-promo container">
-          <Image
-            className="photo"
-            src={hamrahCard}
-            alt={translate("images.app")}
-            sizes="(max-width: 599px) 92vw, (max-width: 1248px) 55vw, 650px"
-            quality={90}
-          />
+          <div className="promo-media">
+            <Image
+              src={hamrahCardBillPay}
+              alt={translate("images.app")}
+              sizes="(max-width: 599px) 230px, 295px"
+              quality={90}
+            />
+          </div>
           <div className="promo-copy">
             <span className="eyebrow">{translate("app.eyebrow")}</span>
             <h2>{translate("app.title")}</h2>

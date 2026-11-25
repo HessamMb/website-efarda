@@ -13,3 +13,5 @@ The product grid uses locally stored product visuals in `public/images/products/
 - Finnotech illustration from the [official Finnotech website](https://finnotech.ir/).
 
 The solutions cards use Hamrah Card's card-to-card transfer visual from its [Myket listing](https://myket.ir/app/com.adpdigital.mbs.ayande), a portrait crop of the Iran Card Platinum artwork above, and the open banking illustration from [Finnotech](https://finnotech.ir/).
+
+The lower app banner uses a cropped Hamrah Card bill-payment visual from its [Myket listing](https://myket.ir/app/com.adpdigital.mbs.ayande).
