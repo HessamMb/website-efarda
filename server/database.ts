@@ -164,14 +164,17 @@ function initialize(db: DatabaseSync) {
     db.prepare("INSERT INTO migrations (name) VALUES (?)").run(finexUpdate);
   }
 
-  const username = process.env.EFARDA_ADMIN_USERNAME?.trim().toLowerCase();
   const passwordFile = process.env.EFARDA_ADMIN_PASSWORD_FILE;
   const bootstrapPassword = process.env.EFARDA_ADMIN_PASSWORD;
+  const configuredUsername = process.env.EFARDA_ADMIN_USERNAME?.trim().toLowerCase();
+  const useDevelopmentDefaults = process.env.NODE_ENV === "development"
+    && !configuredUsername && !passwordFile && !bootstrapPassword;
+  const username = useDevelopmentDefaults ? "admin" : configuredUsername;
   if (!db.prepare("SELECT 1 FROM users LIMIT 1").get() && (username || passwordFile || bootstrapPassword)) {
     const password = passwordFile
       ? readFileSync(/*turbopackIgnore: true*/ passwordFile, "utf8").replace(/\r?\n$/, "")
-      : bootstrapPassword;
-    if (!username || !isUsername(username) || !password || !validPassword(password)) {
+      : useDevelopmentDefaults ? "admin" : bootstrapPassword;
+    if (!username || !isUsername(username) || !password || (!useDevelopmentDefaults && !validPassword(password))) {
       throw new Error("Set a valid EFARDA_ADMIN_USERNAME and a 12–128 character EFARDA_ADMIN_PASSWORD.");
     }
     db.prepare("INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'admin')")

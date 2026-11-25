@@ -10,7 +10,7 @@ Use Node.js 22.13 or newer.
 npm ci
 ```
 
-Create a local `.env.local` file with the initial administrator's credentials. Use a password of 12–128 characters. The username can contain lowercase Latin letters, digits, dots, underscores and hyphens.
+With no bootstrap credentials configured, `npm run dev` creates an initial administrator with username `admin` and password `admin` in a database with no users. To override the defaults, set both credentials in `.env.local`. Use a password of 12–128 characters. The username can contain lowercase Latin letters, digits, dots, underscores and hyphens.
 
 ```dotenv
 EFARDA_ADMIN_USERNAME=local-admin
