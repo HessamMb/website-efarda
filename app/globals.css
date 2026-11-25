@@ -503,12 +503,17 @@ small {
   color: #fff;
   display: grid;
   grid-template-columns: minmax(0, 37fr) minmax(0, 63fr);
+  grid-template-rows: minmax(min-content, 1fr);
   border-radius: 12px;
   overflow: hidden;
   min-height: 320px;
 }
 .promo-media {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  align-self: stretch;
   min-width: 0;
+  min-height: 0;
   contain: size;
   overflow: hidden;
 }
