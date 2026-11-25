@@ -52,16 +52,14 @@ export const newsPosts: NewsPost[] = [
         "این حضور با هدف معرفی تازه‌ترین دستاوردها، نمایش ظرفیت‌ها و توانمندی‌های شرکت‌های گروه و توسعه تعاملات و همکاری‌های راهبردی با فعالان صنعت مالی شکل گرفته است.",
         "ارتباط فردا در این دوره از نمایشگاه، با ارائه مجموعه‌ای از راهکارها و محصولات در حوزه‌های فناوری مالی، خدمات بانکی و پرداخت، بانکداری باز، مدیریت ارتباط با مشتریان و سایر خدمات نوین مالی، تلاش دارد تصویری جامع از ظرفیت‌های متنوع خود و شرکت‌های زیرمجموعه در توسعه زیست‌بوم خدمات مالی ارائه کند.",
         "حضور هم‌زمان شرکت‌های زیرمجموعه در کنار هلدینگ ارتباط فردا، فرصتی برای معرفی توانمندی‌های تخصصی، هم‌افزایی میان کسب‌وکارها و شناسایی زمینه‌های جدید همکاری با بانک‌ها، نهادهای مالی و سایر فعالان این صنعت فراهم کرده است.",
-        "هلدینگ ارتباط فردا در این رویداد، ضمن معرفی محصولات و خدمات جدید، آماده گفت‌وگو با فعالان و متخصصان صنعت مالی و بررسی فرصت‌های همکاری و مشارکت‌های راهبردی است.",
-        "از فعالان، متخصصان و علاقه‌مندان صنعت مالی دعوت می‌کنیم با حضور در غرفه ارتباط فردا، از نزدیک با محصولات، خدمات و ظرفیت‌های جدید این مجموعه و شرکت‌های زیرمجموعه آشنا شوند.",
+        "محل حضور: نمایشگاه بین‌المللی تهران، سالن‌ ۱۰ و ۱۱",
       ],
       en: [
         "Ertebat Farda Holding is participating in the 18th International Stock Exchange, Banking and Insurance Exhibition (FINEX), alongside its subsidiaries, with a range of new financial industry products, services and solutions.",
         "The participation aims to introduce the group's latest achievements, showcase its companies' capabilities and develop strategic relationships with financial industry participants.",
         "Through solutions spanning financial technology, banking and payments, open banking, customer relationship management and other modern financial services, the holding is presenting the breadth of its contribution to the financial services ecosystem.",
         "Bringing the subsidiaries together creates opportunities to demonstrate their specialist capabilities, strengthen collaboration across businesses and identify new partnerships with banks, financial institutions and other industry participants.",
-        "Alongside presenting new products and services, Ertebat Farda Holding welcomes conversations with financial industry professionals about cooperation and strategic partnerships.",
-        "Industry professionals and visitors are invited to the Ertebat Farda booth to explore the group's new products, services and capabilities in person.",
+        "Venue: Tehran International Exhibition Center, Halls 10 and 11.",
       ],
     },
     images: [

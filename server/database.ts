@@ -144,6 +144,25 @@ function initialize(db: DatabaseSync) {
 
   seedNewsArchive(db);
 
+  const finexUpdate = "finex-exhibition-venue";
+  if (!db.prepare("SELECT 1 FROM migrations WHERE name = ?").get(finexUpdate)) {
+    const post = newsPosts.find(({ id }) => id === "finex-exhibition");
+    if (post) {
+      const update = db.prepare(`
+        UPDATE translations SET draft = json_set(draft, '$.blocks', json(?)),
+          published = json_set(published, '$.blocks', json(?)), revision = revision + 1
+        WHERE slug = ? AND locale = ? AND revision = 1 AND draft = published
+          AND json_extract(published, '$.sourceUrl') = ?
+          AND json_extract(published, '$.blocks') <> json(?)
+      `);
+      for (const locale of postLocales) {
+        const blocks = JSON.stringify(post.paragraphs[locale].map((text) => ({ kind: "paragraph", text })));
+        update.run(blocks, blocks, post.id, locale, post.sourceUrl, blocks);
+      }
+    }
+    db.prepare("INSERT INTO migrations (name) VALUES (?)").run(finexUpdate);
+  }
+
   const username = process.env.EFARDA_ADMIN_USERNAME?.trim().toLowerCase();
   const passwordFile = process.env.EFARDA_ADMIN_PASSWORD_FILE;
   const bootstrapPassword = process.env.EFARDA_ADMIN_PASSWORD;
