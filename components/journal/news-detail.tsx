@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Copy, ExternalLink } from "lucide-react";
+import { Copy, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ContactSection, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { newsHref, type NewsCard, type PublishedPost } from "@/data/post-content";
 import type { Locale } from "@/i18n/provider";
+import NewsCardsGrid from "./news-cards-grid";
 import NewsGallery from "./news-gallery";
 import PostBlocks from "./post-blocks";
 
@@ -115,28 +115,7 @@ export default function NewsDetail({ post, related }: { post: PublishedPost; rel
           <section className="news-related" aria-labelledby="news-related-title">
             <div className="container">
               <h2 id="news-related-title">{t("news.related")}</h2>
-              <div className="news-related-grid">
-                {related.map((item) => {
-                  const cover = item.content.images[0];
-                  return (
-                    <article key={item.slug}>
-                      <Link href={newsHref(item.slug, locale)}>
-                        <Image
-                          src={base + cover.src}
-                          alt=""
-                          width={cover.width}
-                          height={cover.height}
-
-                          sizes="(max-width: 599px) 90vw, (max-width: 1000px) 45vw, 380px"
-                        />
-                        <span className="eyebrow">{t(item.content.categoryKey)}</span>
-                        <h3>{item.content.title}</h3>
-                        <span className="arrow-link">{t("news.read")} <ArrowLeft size={16} /></span>
-                      </Link>
-                    </article>
-                  );
-                })}
-              </div>
+              <NewsCardsGrid items={related} locale={locale} />
             </div>
           </section>
         )}

@@ -287,9 +287,15 @@
   line-height: 1.35;
 }
 
-.company-profile-board h2 {
+.company-profile-board h2,
+.company-profile-news h2 {
   margin-block-end: 1.15rem;
   font-size: clamp(1.25rem, 4vw, 1.8rem);
+}
+
+.company-profile-news {
+  border-block-start: 1px solid #dce8df;
+  padding-block-start: 1.5rem;
 }
 
 .company-profile-board ul {

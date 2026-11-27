@@ -1,5 +1,6 @@
 import archive from "@/data/legacy-news.json";
 import { newsPosts } from "@/data/news";
+import type { companies } from "@/data/companies";
 import type { Locale } from "@/i18n/provider";
 import type { NewsCard, PostContent, PublishedPost } from "@/data/post-content";
 import homeImages from "@/public/images/home/manifest.json";
@@ -81,12 +82,36 @@ function publishedNews(locale: Locale): PublishedPost[] {
 
 const posts = { fa: publishedNews("fa"), en: publishedNews("en") };
 
+const newsByCompany = {
+  "ertebat-farda": [
+    "finex-18-announcement", "finex-exhibition", "co-banking", "transaction-product-awards",
+    "finance-deputy-appointment", "legal-management-appointment", "elecomp-visit",
+    "ceo-office-appointment", "isms-certification", "bank-day-iran-card", "new-holding-board",
+    "annual-general-meeting", "moheb-ali-board-appointment", "ice-cream-day", "ceo-appointment", "itweekend-10",
+  ],
+  "behin-farda": [
+    "iran-card-novin", "behin-farda-chair", "bank-day-iran-card", "transaction-product-awards",
+    "behin-farda-performance-review",
+  ],
+  pipa: ["hamrah-peyda-ceo", "hamrah-peyda-performance-review"],
+  finnova: ["finonext-launch", "finova-ceo", "finova-knowledge-based", "finova-performance-review"],
+  finnotech: ["finotech-performance-review"],
+  "bamdad-roshan": ["bamdad-roshan-ceo", "bamdad-roshan-performance-review"],
+  segal: [],
+} satisfies Record<(typeof companies)[number]["slug"], string[]>;
+
+function toNewsCard({ slug, content: { title, excerpt, categoryKey, images } }: PublishedPost): NewsCard {
+  return { slug, content: { title, excerpt, categoryKey, images } };
+}
+
 export function getNewsCards(locale: Locale, exclude?: string): NewsCard[] {
   const items = exclude ? posts[locale].filter(({ slug }) => slug !== exclude).slice(0, 3) : posts[locale];
-  return items.map(({ slug, content: { title, excerpt, categoryKey, images } }) => ({
-    slug,
-    content: { title, excerpt, categoryKey, images },
-  }));
+  return items.map(toNewsCard);
+}
+
+export function getCompanyNewsCards(locale: Locale, company: keyof typeof newsByCompany): NewsCard[] {
+  const slugs: string[] = newsByCompany[company];
+  return posts[locale].filter(({ slug }) => slugs.includes(slug)).slice(0, 3).map(toNewsCard);
 }
 
 export function getPublishedPost(locale: Locale, slug: string) {

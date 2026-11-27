@@ -1,9 +1,11 @@
 import Image from "next/image";
 import CompanyLeadership from "@/components/company-leadership";
+import NewsCardsGrid from "@/components/journal/news-cards-grid";
 import { notFound } from "next/navigation";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { boardMembers, boardRoles } from "@/data/company-board";
 import { companies, companyAssets, companyDirectoryPath, companyHref } from "@/data/companies";
+import { getCompanyNewsCards } from "@/data/published-news";
 import { LocaleProvider, type Locale } from "@/i18n/provider";
 import "./company-group-page.css";
 
@@ -46,6 +48,7 @@ export async function CompanyProfile({ locale, params }: CompanyRouteProps & { l
     .reverse();
   const ceo = members.find((member) => member.role === "ceo");
   const directors = members.filter((member) => member.role !== "ceo");
+  const news = getCompanyNewsCards(locale, company.slug);
 
   function portrait(member: (typeof members)[number], featured = false) {
     const hasPhoto = portraitsByPage[company.page].includes(member.portrait);
@@ -106,6 +109,12 @@ export async function CompanyProfile({ locale, params }: CompanyRouteProps & { l
             </ul>
           </section>
         </CompanyLeadership>
+        {news.length > 0 && (
+          <section className="company-profile-news" aria-labelledby="company-news">
+            <h2 id="company-news">{english ? "Company News" : "اخبار شرکت"}</h2>
+            <NewsCardsGrid items={news} locale={locale} />
+          </section>
+        )}
       </main>
       <SiteFooter homeHref={homeHref} />
     </LocaleProvider>
