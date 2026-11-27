@@ -280,14 +280,20 @@
     overflow: hidden;
     aspect-ratio: 5 / 6;
     border-radius: 0.875rem;
-    color: #17694d;
     background: #edf4ef;
-    font-size: clamp(1.5rem, 7vw, 2.5rem);
-    font-weight: 600;
   }
 
   .company-board-portrait img {
     object-fit: cover;
+  }
+
+  .company-board-logo {
+    width: 56%;
+    height: 36%;
+    background: #17694d;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
   }
 
   .company-board-portrait[data-portrait="true"]::after {

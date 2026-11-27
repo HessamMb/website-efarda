@@ -7,6 +7,12 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 // Card bounds include the full nameplate and white padding on a 900 × 506 PDF preview.
 const threeCards = [[108, 305], [351, 548], [595, 792]];
 const fourCards = [[35, 212], [253, 431], [471, 650], [689, 867]];
+const fallbackLogos: Record<number, string> = {
+  6: "finnova",
+  7: "finnotech",
+  8: "bamdad-roshan",
+  9: "segal",
+};
 const slides: Record<number, {
   top: number;
   bottom: number;
@@ -38,6 +44,7 @@ export default function CompanyBoardSlide({ page, src, alt, rtl }: {
   const [loaded, setLoaded] = useState(false);
   const [seen, setSeen] = useState(false);
   const { top, bottom, cards, portraits } = slides[page];
+  const assetDirectory = src.slice(0, src.lastIndexOf("/"));
   const height = bottom - top;
   const hasPortraits = portraits.some(Boolean);
   const members = boardMembers[page].map(([fa, en, role], index) => ({
@@ -107,27 +114,28 @@ export default function CompanyBoardSlide({ page, src, alt, rtl }: {
         })}
       </div>
       <ul className="company-board-grid" data-seen={seen} ref={gridRef} role="list">
-        {members.map(({ name, role, index, portrait }) => {
-          const words = name.split(" ");
-          const initials = words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "");
-          return (
-            <li key={index}>
-              <div className="company-board-portrait" data-portrait={portrait} aria-hidden="true">
-                {portrait ? (
-                  <Image
-                    src={`${src.slice(0, src.lastIndexOf("/"))}/portraits/${page}-${index + 1}.webp`}
-                    fill
-                    sizes="(max-width: 599px) 50vw, 1px"
-                    alt=""
-                    unoptimized
-                  />
-                ) : <span>{initials}</span>}
-              </div>
-              <h3>{name}</h3>
-              <p>{role}</p>
-            </li>
-          );
-        })}
+        {members.map(({ name, role, index, portrait }) => (
+          <li key={index}>
+            <div className="company-board-portrait" data-portrait={portrait} aria-hidden="true">
+              {portrait ? (
+                <Image
+                  src={`${assetDirectory}/portraits/${page}-${index + 1}.webp`}
+                  fill
+                  sizes="(max-width: 599px) 50vw, 1px"
+                  alt=""
+                  unoptimized
+                />
+              ) : (
+                <span
+                  className="company-board-logo"
+                  style={{ maskImage: `url("${assetDirectory}/planet-${fallbackLogos[page]}.webp")` }}
+                />
+              )}
+            </div>
+            <h3>{name}</h3>
+            <p>{role}</p>
+          </li>
+        ))}
       </ul>
     </div>
   );
