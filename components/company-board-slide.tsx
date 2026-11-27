@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-// Card edges are measured on a 900 × 506 preview of each PDF slide, from left to right.
+// Card bounds include the full nameplate and white padding on a 900 × 506 PDF preview.
 const threeCards = [[108, 305], [351, 548], [595, 792]];
 const fourCards = [[35, 212], [253, 431], [471, 650], [689, 867]];
 const slides: Record<number, {
@@ -14,16 +14,16 @@ const slides: Record<number, {
 }> = {
   3: {
     top: 167,
-    bottom: 342,
+    bottom: 356,
     cards: [[35, 189], [204, 358], [373, 527], [541, 697], [710, 865]],
     portraits: [true, true, true, true, true],
   },
-  4: { top: 141, bottom: 371, cards: threeCards, portraits: [true, true, true] },
-  5: { top: 148, bottom: 357, cards: fourCards, portraits: [true, true, true, true] },
-  6: { top: 137, bottom: 373, cards: threeCards, portraits: [false, true, true] },
-  7: { top: 164, bottom: 373, cards: threeCards, portraits: [false, false, false] },
-  8: { top: 144, bottom: 365, cards: fourCards, portraits: [true, true, false, true] },
-  9: { top: 167, bottom: 365, cards: fourCards, portraits: [false, false, false, false] },
+  4: { top: 141, bottom: 384, cards: threeCards, portraits: [true, true, true] },
+  5: { top: 148, bottom: 372, cards: fourCards, portraits: [true, true, true, true] },
+  6: { top: 137, bottom: 385, cards: threeCards, portraits: [false, true, true] },
+  7: { top: 158, bottom: 384, cards: threeCards, portraits: [false, false, false] },
+  8: { top: 144, bottom: 373, cards: fourCards, portraits: [true, true, false, true] },
+  9: { top: 167, bottom: 372, cards: fourCards, portraits: [false, false, false, false] },
 };
 
 export default function CompanyBoardSlide({ page, src, alt }: {
