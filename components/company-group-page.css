@@ -159,8 +159,15 @@
   position: relative;
 }
 
+.company-board-title,
+.company-board-navigation {
+  display: none;
+}
+
 .company-board-row {
   position: absolute;
+  top: var(--company-board-top);
+  height: var(--company-board-height);
   inset-inline: 0;
   pointer-events: none;
 }
@@ -168,6 +175,8 @@
 .company-board-card {
   position: absolute;
   top: 0;
+  left: var(--company-board-left);
+  width: var(--company-board-width);
   height: 100%;
   border-radius: 0.35rem;
   overflow: hidden;
@@ -231,5 +240,92 @@
   to {
     background-position: 0 0;
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .company-board-slide {
+    container-type: inline-size;
+    padding-block: 1rem;
+    border-block-start: 1px solid #dce8df;
+  }
+
+  .company-board-title {
+    display: block;
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+  }
+
+  .company-board-original {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .company-board-row {
+    --board-mobile-width: min(82cqw, 20rem);
+    position: relative;
+    top: auto;
+    height: auto;
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+    padding-inline-end: calc(100cqw - var(--board-mobile-width));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    pointer-events: auto;
+  }
+
+  .company-board-card {
+    position: relative;
+    left: auto;
+    width: var(--board-mobile-width);
+    height: auto;
+    aspect-ratio: var(--company-board-ratio);
+    flex: none;
+    background-image: var(--company-board-image);
+    background-repeat: no-repeat;
+    scroll-snap-align: start;
+  }
+
+  .company-board-row[data-loaded="true"] .company-board-card:hover {
+    transform: none;
+  }
+
+  .company-board-card::before {
+    display: none;
+  }
+
+  .company-board-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .company-board-navigation button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #dce8df;
+    border-radius: 50%;
+    color: var(--green);
+    background: white;
+    cursor: pointer;
+  }
+
+  .company-board-navigation button:disabled {
+    cursor: default;
+    opacity: 0.4;
+  }
+}
+
+@media screen and (max-width: 599px) and (prefers-reduced-motion: no-preference) {
+  .company-board-row {
+    scroll-behavior: smooth;
   }
 }

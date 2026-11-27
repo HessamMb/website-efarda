@@ -96,7 +96,7 @@ export default function CompanyGroupPage({ locale }: { locale: Locale }) {
           const src = `${assetPath}/page-${page}.webp`;
           const alt = english ? en : fa;
 
-          if (page >= 3) return <CompanyBoardSlide key={fa} page={page} src={src} alt={alt} />;
+          if (page >= 3) return <CompanyBoardSlide key={fa} page={page} src={src} alt={alt} rtl={!english} />;
 
           const slide = (
             <Image
