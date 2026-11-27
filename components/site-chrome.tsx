@@ -107,11 +107,14 @@ export function QuickLinks({
 export function SiteHeader({
   homeHref = "",
   languagePath,
+  companyGroup = false,
 }: {
   homeHref?: string;
   languagePath?: string;
+  companyGroup?: boolean;
 }) {
-  const { t: translate } = useTranslation();
+  const { t: translate, i18n } = useTranslation();
+  const groupHref = assetPath(i18n.language === "en" ? "/en/company-group/" : "/company-group/");
   const [menu, setMenu] = useState(false);
   return (
     <>
@@ -182,9 +185,12 @@ export function SiteHeader({
           <a href={`${homeHref}#contact`}>{translate("nav.partnership")}</a>
           <a
             href={`${homeHref}#journal`}
-            aria-current={languagePath ? "location" : undefined}
+            aria-current={languagePath && !companyGroup ? "location" : undefined}
           >
             {translate("nav.journal")}
+          </a>
+          <a href={groupHref} aria-current={companyGroup ? "page" : undefined}>
+            {translate("nav.companyGroup")}
           </a>
           <a href={`${homeHref}#contact`}>{translate("nav.getInTouch")}</a>
         </nav>

@@ -788,7 +788,7 @@ footer {
   .navigation {
     height: 44px;
     justify-content: flex-start;
-    gap: 30px;
+    gap: clamp(12px, 2.8vw, 30px);
   }
   .header-actions form {
     width: 264px;
