@@ -154,3 +154,82 @@
     display: none;
   }
 }
+
+.company-board-slide {
+  position: relative;
+}
+
+.company-board-row {
+  position: absolute;
+  inset-inline: 0;
+  pointer-events: none;
+}
+
+.company-board-card {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 0.35rem;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.company-board-card[data-portrait="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 10% 3% 13%;
+  border-radius: 12%;
+  background: linear-gradient(
+    110deg,
+    transparent 37%,
+    rgb(255 255 255 / 24%) 50%,
+    transparent 63%
+  ) 100% 0 / 300% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .company-board-row[data-seen="true"] .company-board-card[data-portrait="true"]::after {
+    animation: company-board-shine 700ms ease-out both;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .company-board-card {
+    transition: transform 180ms ease-out;
+  }
+
+  .company-board-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--company-board-image);
+    background-repeat: no-repeat;
+    background-size: inherit;
+    background-position: inherit;
+    opacity: 0;
+    transition: opacity 50ms linear 130ms;
+  }
+
+  .company-board-row[data-loaded="true"] .company-board-card:hover {
+    z-index: 1;
+    transform: scale(1.055);
+  }
+
+  .company-board-row[data-loaded="true"] .company-board-card:hover::before {
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}
+
+@keyframes company-board-shine {
+  15%, 75% {
+    opacity: 1;
+  }
+
+  to {
+    background-position: 0 0;
+    opacity: 0;
+  }
+}

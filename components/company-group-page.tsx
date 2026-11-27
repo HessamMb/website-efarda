@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CompanyBoardSlide from "@/components/company-board-slide";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { LocaleProvider, type Locale } from "@/i18n/provider";
 import "./company-group-page.css";
@@ -91,13 +92,19 @@ export default function CompanyGroupPage({ locale }: { locale: Locale }) {
       <main className="container company-group-document">
         <h1>{companyGroupTitles[locale]}</h1>
         {pages.map(([fa, en], index) => {
+          const page = index + 1;
+          const src = `${assetPath}/page-${page}.webp`;
+          const alt = english ? en : fa;
+
+          if (page >= 3) return <CompanyBoardSlide key={fa} page={page} src={src} alt={alt} />;
+
           const slide = (
             <Image
               className="company-group-slide"
-              src={`${assetPath}/page-${index + 1}.webp`}
+              src={src}
               width={1600}
               height={900}
-              alt={english ? en : fa}
+              alt={alt}
               loading={index === 0 ? "eager" : "lazy"}
               unoptimized
             />
