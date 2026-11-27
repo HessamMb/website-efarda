@@ -85,6 +85,13 @@ export async function CompanyProfile({ locale, params }: CompanyRouteProps & { l
           <p>{company.description[locale]}</p>
         </header>
 
+        {news.length > 0 && (
+          <section className="company-profile-news" aria-labelledby="company-news">
+            <h2 id="company-news">{english ? "Company News" : "اخبار شرکت"}</h2>
+            <NewsCardsGrid items={news} locale={locale} />
+          </section>
+        )}
+
         <CompanyLeadership>
           {ceo && (
             <section className="company-profile-executive" aria-labelledby="company-ceo">
@@ -93,13 +100,6 @@ export async function CompanyProfile({ locale, params }: CompanyRouteProps & { l
                 <h2 id="company-ceo">{boardRoles.ceo[locale]}</h2>
                 <p>{ceo.name}</p>
               </div>
-            </section>
-          )}
-
-          {news.length > 0 && (
-            <section className="company-profile-news" aria-labelledby="company-news">
-              <h2 id="company-news">{english ? "Company News" : "اخبار شرکت"}</h2>
-              <NewsCardsGrid items={news} locale={locale} />
             </section>
           )}
 
