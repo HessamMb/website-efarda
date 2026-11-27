@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { boardMembers, boardRoles } from "@/data/company-board";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 // Card bounds include the full nameplate and white padding on a 900 × 506 PDF preview.
@@ -34,37 +34,34 @@ export default function CompanyBoardSlide({ page, src, alt, rtl }: {
   rtl: boolean;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLUListElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [seen, setSeen] = useState(false);
-  const [active, setActive] = useState(0);
   const { top, bottom, cards, portraits } = slides[page];
   const height = bottom - top;
   const hasPortraits = portraits.some(Boolean);
-  const orderedCards = cards.map(([left, right], index) => ({ left, right, portrait: portraits[index] }));
-  if (rtl) orderedCards.reverse();
-
-  function scrollStep(row: HTMLDivElement) {
-    const [first, second] = row.children as HTMLCollectionOf<HTMLElement>;
-    return second.getBoundingClientRect().left - first.getBoundingClientRect().left;
-  }
-
-  function goTo(index: number) {
-    const row = rowRef.current;
-    if (row) row.scrollTo({ left: index * scrollStep(row) });
-  }
+  const members = boardMembers[page].map(([fa, en, role], index) => ({
+    name: rtl ? fa : en,
+    role: boardRoles[role][rtl ? "fa" : "en"],
+    index,
+    portrait: portraits[index],
+  }));
+  if (rtl) members.reverse();
 
   useEffect(() => {
     const row = rowRef.current;
-    if (!row || !loaded || !hasPortraits || seen) return;
+    const grid = gridRef.current;
+    if (!row || !grid || !hasPortraits || seen) return;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.45)) {
         setSeen(true);
         observer.disconnect();
       }
     }, { threshold: 0.45 });
 
-    observer.observe(row);
+    if (loaded) observer.observe(row);
+    observer.observe(grid);
     return () => observer.disconnect();
   }, [loaded, hasPortraits, seen]);
 
@@ -89,24 +86,18 @@ export default function CompanyBoardSlide({ page, src, alt, rtl }: {
           "--company-board-top": `${top / 506 * 100}%`,
           "--company-board-height": `${height / 506 * 100}%`,
         } as CSSProperties}
-        onScroll={(event) => {
-          const row = event.currentTarget;
-          const step = scrollStep(row);
-          if (step) setActive(Math.max(0, Math.min(cards.length - 1, Math.round(row.scrollLeft / step))));
-        }}
         aria-hidden="true"
       >
-        {orderedCards.map(({ left, right, portrait }) => {
+        {cards.map(([left, right], index) => {
           const width = right - left;
           return (
             <div
               className="company-board-card"
-              data-portrait={portrait}
+              data-portrait={portraits[index]}
               key={left}
               style={{
                 "--company-board-left": `${left / 900 * 100}%`,
                 "--company-board-width": `${width / 900 * 100}%`,
-                "--company-board-ratio": `${width} / ${height}`,
                 "--company-board-image": `url("${src}")`,
                 backgroundSize: `${900 / width * 100}% ${506 / height * 100}%`,
                 backgroundPosition: `${left / (900 - width) * 100}% ${top / (506 - height) * 100}%`,
@@ -115,27 +106,29 @@ export default function CompanyBoardSlide({ page, src, alt, rtl }: {
           );
         })}
       </div>
-      <div className="company-board-navigation">
-        <button
-          type="button"
-          aria-label={rtl ? "مدیر قبلی" : "Previous leader"}
-          disabled={active === 0}
-          onClick={() => goTo(active - 1)}
-        >
-          {rtl ? <ChevronRight aria-hidden="true" size={20} /> : <ChevronLeft aria-hidden="true" size={20} />}
-        </button>
-        <span aria-live="polite">
-          {(active + 1).toLocaleString(rtl ? "fa-IR" : "en")} / {cards.length.toLocaleString(rtl ? "fa-IR" : "en")}
-        </span>
-        <button
-          type="button"
-          aria-label={rtl ? "مدیر بعدی" : "Next leader"}
-          disabled={active === cards.length - 1}
-          onClick={() => goTo(active + 1)}
-        >
-          {rtl ? <ChevronLeft aria-hidden="true" size={20} /> : <ChevronRight aria-hidden="true" size={20} />}
-        </button>
-      </div>
+      <ul className="company-board-grid" data-seen={seen} ref={gridRef} role="list">
+        {members.map(({ name, role, index, portrait }) => {
+          const words = name.split(" ");
+          const initials = words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "");
+          return (
+            <li key={index}>
+              <div className="company-board-portrait" data-portrait={portrait} aria-hidden="true">
+                {portrait ? (
+                  <Image
+                    src={`${src.slice(0, src.lastIndexOf("/"))}/portraits/${page}-${index + 1}.webp`}
+                    fill
+                    sizes="(max-width: 599px) 50vw, 1px"
+                    alt=""
+                    unoptimized
+                  />
+                ) : <span>{initials}</span>}
+              </div>
+              <h3>{name}</h3>
+              <p>{role}</p>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

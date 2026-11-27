@@ -160,7 +160,7 @@
 }
 
 .company-board-title,
-.company-board-navigation {
+.company-board-grid {
   display: none;
 }
 
@@ -183,7 +183,8 @@
   pointer-events: auto;
 }
 
-.company-board-card[data-portrait="true"]::after {
+.company-board-card[data-portrait="true"]::after,
+.company-board-portrait[data-portrait="true"]::after {
   content: "";
   position: absolute;
   inset: 10% 3% 13%;
@@ -199,7 +200,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .company-board-row[data-seen="true"] .company-board-card[data-portrait="true"]::after {
+  .company-board-row[data-seen="true"] .company-board-card[data-portrait="true"]::after,
+  .company-board-grid[data-seen="true"] .company-board-portrait[data-portrait="true"]::after {
     animation: company-board-shine 700ms ease-out both;
   }
 }
@@ -245,87 +247,65 @@
 
 @media screen and (max-width: 599px) {
   .company-board-slide {
-    container-type: inline-size;
-    padding-block: 1rem;
+    padding-block: 1.25rem 0.5rem;
     border-block-start: 1px solid #dce8df;
   }
 
   .company-board-title {
     display: block;
-    margin: 0 0 0.75rem;
-    font-size: 1.125rem;
+    margin: 0 0 1rem;
+    color: var(--green);
+    font-size: 1.25rem;
+    line-height: 1.45;
   }
 
-  .company-board-original {
-    position: absolute;
-    top: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-
+  .company-board-original,
   .company-board-row {
-    --board-mobile-width: min(82cqw, 20rem);
-    position: relative;
-    top: auto;
-    height: auto;
-    display: flex;
-    align-items: start;
-    gap: 0.75rem;
-    padding-inline-end: calc(100cqw - var(--board-mobile-width));
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    pointer-events: auto;
-  }
-
-  .company-board-card {
-    position: relative;
-    left: auto;
-    width: var(--board-mobile-width);
-    height: auto;
-    aspect-ratio: var(--company-board-ratio);
-    flex: none;
-    background-image: var(--company-board-image);
-    background-repeat: no-repeat;
-    scroll-snap-align: start;
-  }
-
-  .company-board-row[data-loaded="true"] .company-board-card:hover {
-    transform: none;
-  }
-
-  .company-board-card::before {
     display: none;
   }
 
-  .company-board-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+  .company-board-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem clamp(0.75rem, 3vw, 1.25rem);
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
-  .company-board-navigation button {
+  .company-board-portrait {
+    position: relative;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid #dce8df;
-    border-radius: 50%;
-    color: var(--green);
-    background: white;
-    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 5 / 6;
+    border-radius: 0.875rem;
+    color: #17694d;
+    background: #edf4ef;
+    font-size: clamp(1.5rem, 7vw, 2.5rem);
+    font-weight: 600;
   }
 
-  .company-board-navigation button:disabled {
-    cursor: default;
-    opacity: 0.4;
+  .company-board-portrait img {
+    object-fit: cover;
   }
-}
 
-@media screen and (max-width: 599px) and (prefers-reduced-motion: no-preference) {
-  .company-board-row {
-    scroll-behavior: smooth;
+  .company-board-portrait[data-portrait="true"]::after {
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .company-board-grid h3 {
+    margin: 0.55rem 0 0;
+    font-size: clamp(0.875rem, 3.5vw, 1.125rem);
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .company-board-grid p {
+    margin: 0.15rem 0 0;
+    color: #4f5f55;
+    font-size: clamp(0.75rem, 2.9vw, 0.9375rem);
+    line-height: 1.5;
   }
 }
