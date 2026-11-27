@@ -54,8 +54,8 @@ function CompanyOrbits() {
         <Image
           className="company-group-center"
           src={assetPath + "/orbit-center.webp"}
-          width={220}
-          height={76}
+          width={560}
+          height={191}
           alt=""
           unoptimized
         />
@@ -101,8 +101,8 @@ export default function CompanyGroupPage({ locale }: { locale: Locale }) {
             <Image
               className="company-group-slide"
               src={assetPath + "/page-2.webp"}
-              width={1600}
-              height={900}
+              width={2400}
+              height={1350}
               alt={english ? "Ertebat Farda group companies and businesses diagram" : "نمودار شرکت‌ها و کسب‌وکارهای گروه ارتباط فردا"}
               unoptimized
             />

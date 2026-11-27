@@ -21,4 +21,4 @@ The resulting `out/` directory contains both homepage languages and every articl
 
 ## News
 
-`data/news.ts` contains curated articles. `data/legacy-news.json` contains the archive imported from the former site, with dates and source references. `data/published-news.ts` combines the two collections for the homepage, the journal and article pages. Updating the static site's content requires a new build.
+`data/news.ts` contains curated articles. `data/legacy-news.json` contains the archive imported from the former site, with dates and source references. `data/published-news.ts` combines the two collections for the homepage, the journal, company profiles and article pages. Legacy entries with missing translated body text or an illustrative cover stay in the archive data until the original material is available. Updating the static site's content requires a new build.

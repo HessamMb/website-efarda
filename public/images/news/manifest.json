@@ -31,10 +31,6 @@
     "width": 1280,
     "height": 853
   },
-  "financial-event-speaker": {
-    "width": 1280,
-    "height": 853
-  },
   "ceo-appointment": {
     "width": 800,
     "height": 534
@@ -46,5 +42,29 @@
   "transaction-product-awards": {
     "width": 1616,
     "height": 1080
+  },
+  "co-banking-panel": {
+    "width": 600,
+    "height": 400
+  },
+  "hamrah-peyda-appointment": {
+    "width": 1280,
+    "height": 853
+  },
+  "finonext-poster": {
+    "width": 1200,
+    "height": 802
+  },
+  "iran-card-novin-launch": {
+    "width": 1080,
+    "height": 520
+  },
+  "hamrah-peyda-review-app": {
+    "width": 800,
+    "height": 534
+  },
+  "hamrah-peyda-review-meeting": {
+    "width": 800,
+    "height": 534
   }
 }

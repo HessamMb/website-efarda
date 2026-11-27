@@ -3,37 +3,23 @@ import { newsPosts } from "@/data/news";
 import type { companies } from "@/data/companies";
 import type { Locale } from "@/i18n/provider";
 import type { NewsCard, PostContent, PublishedPost } from "@/data/post-content";
-import homeImages from "@/public/images/home/manifest.json";
 import newsImages from "@/public/images/news/manifest.json";
 
-const illustrations = {
-  building: homeImages.building,
-  business: homeImages.business,
-  everyday: homeImages.everyday,
-  journal: homeImages.journal,
-  payment: homeImages.payment,
-};
-
-function archiveContent(article: (typeof archive)[number], locale: Locale): PostContent {
-  const eventPhoto = Object.hasOwn(newsImages, article.cover);
-  const cover = eventPhoto
-    ? newsImages[article.cover as keyof typeof newsImages]
-    : illustrations[article.cover as keyof typeof illustrations];
+function archiveContent(article: (typeof archive)[number], locale: Locale): PostContent | undefined {
+  if (!Object.hasOwn(newsImages, article.cover) || !article.body?.fa.length || !article.body.en.length) return;
+  const cover = newsImages[article.cover as keyof typeof newsImages];
 
   return {
     title: article.title[locale],
     excerpt: article.excerpt[locale],
     categoryKey: `news.category.${article.category}`,
-    blocks: article.body?.[locale].map((text) => ({ kind: "paragraph", text })) ?? [],
+    blocks: article.body[locale].map((text) => ({ kind: "paragraph", text })),
     images: [{
-      src: `/images/${eventPhoto ? "news" : "home"}/${article.cover}.webp`,
+      src: `/images/news/${article.cover}.webp`,
       width: cover.width,
       height: cover.height,
-      alt: article.imageAlt?.[locale] ?? (eventPhoto
-        ? locale === "fa" ? "غرفه ارتباط فردا در فینکس" : "Ertebat Farda’s stand at FINEX"
-        : ""),
+      alt: article.imageAlt?.[locale] ?? "",
     }],
-    imageNote: eventPhoto ? undefined : locale === "fa" ? "تصویر تزیینی" : "Illustrative image",
     sourceUrl: article.publishSourceLink === false ? undefined : article.sourceUrl,
     isSummary: article.publishSourceLink !== false,
   };
@@ -60,8 +46,8 @@ function publishedNews(locale: Locale): PublishedPost[] {
         categoryKey: post.categoryKey,
         blocks: post.paragraphs[locale].map((text) => ({ kind: "paragraph", text })),
         images: post.images.map(({ alt, ...image }) => ({ ...image, alt: alt[locale] })),
-        sourceUrl: original?.sourceUrl ?? post.sourceUrl,
-        sourceIsProfile: original ? undefined : post.sourceIsProfile,
+        sourceUrl: post.sourceUrl,
+        sourceIsProfile: post.sourceIsProfile,
         imageNote: post.imageNote?.[locale],
         isSummary: post.isSummary,
       },
@@ -70,11 +56,13 @@ function publishedNews(locale: Locale): PublishedPost[] {
   const curatedSlugs = new Set(curated.map(({ slug }) => slug));
   for (const article of archive) {
     if (curatedSlugs.has(article.slug)) continue;
+    const content = archiveContent(article, locale);
+    if (!content) continue;
     curated.push({
       slug: article.slug,
       hasTranslation: true,
       publishedAt: archiveDate(article.sourceUrl),
-      content: archiveContent(article, locale),
+      content,
     });
   }
   return curated.sort((a, b) => (b.publishedAt ?? 0) - (a.publishedAt ?? 0));

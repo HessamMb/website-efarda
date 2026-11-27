@@ -22,11 +22,7 @@ function newsSlides(posts: NewsCard[]) {
   const slides: { post: NewsCard; cover: CoverImage }[] = [];
   const used = new Set<string>();
   for (const post of posts) {
-    // The archive uses homepage illustrations where a source photo was unavailable.
-    const cover = post.content.images.find(({ src }) =>
-      !used.has(src) && src.startsWith("/images/news/") &&
-        src !== "/images/news/financial-event-speaker.webp",
-    );
+    const cover = post.content.images.find(({ src }) => !used.has(src));
     if (!cover) continue;
     slides.push({ post, cover });
     used.add(cover.src);
