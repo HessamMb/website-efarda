@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import {
@@ -21,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { LinkArrow } from "@/components/home-ui";
+import { companies, companyHref } from "@/data/companies";
 import { LanguageSwitch } from "@/i18n/provider";
 
 const assetPath = (path: string) =>
@@ -108,14 +109,18 @@ export function SiteHeader({
   homeHref = "",
   languagePath,
   companyGroup = false,
+  companySlug,
 }: {
   homeHref?: string;
   languagePath?: string;
   companyGroup?: boolean;
+  companySlug?: string;
 }) {
   const { t: translate, i18n } = useTranslation();
-  const groupHref = assetPath(i18n.language === "en" ? "/en/company-group/" : "/company-group/");
+  const locale = i18n.language === "en" ? "en" : "fa";
+  const companiesMenuId = useId();
   const [menu, setMenu] = useState(false);
+  const [companiesOpen, setCompaniesOpen] = useState(false);
   return (
     <>
       <div id="top" className="topbar">
@@ -163,7 +168,10 @@ export function SiteHeader({
               menu ? translate("a11y.closeMenu") : translate("a11y.openMenu")
             }
             aria-expanded={menu}
-            onClick={() => setMenu(!menu)}
+            onClick={() => {
+              setMenu(!menu);
+              setCompaniesOpen(false);
+            }}
           >
             {menu ? <X /> : <Menu />}
           </button>
@@ -171,7 +179,12 @@ export function SiteHeader({
         <nav
           aria-label={translate("a11y.mainNavigation")}
           className={`container navigation ${menu ? "is-open" : ""}`}
-          onClick={() => setMenu(false)}
+          onClick={(event) => {
+            if (event.target instanceof Element && event.target.closest("a")) {
+              setMenu(false);
+              setCompaniesOpen(false);
+            }
+          }}
         >
           <a href={homeHref || "#top"}>{translate("nav.home")}</a>
           <a href={`${homeHref}#products`}>
@@ -189,9 +202,47 @@ export function SiteHeader({
           >
             {translate("nav.journal")}
           </a>
-          <a href={groupHref} aria-current={companyGroup ? "page" : undefined}>
-            {translate("nav.companyGroup")}
-          </a>
+          <div
+            className="company-menu"
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setCompaniesOpen(false);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape" && companiesOpen) {
+                setCompaniesOpen(false);
+                event.currentTarget.querySelector("button")?.focus();
+              }
+            }}
+          >
+            <button
+              type="button"
+              className="company-menu-trigger"
+              data-active={companyGroup}
+              aria-expanded={companiesOpen}
+              aria-controls={companiesMenuId}
+              onClick={() => setCompaniesOpen(!companiesOpen)}
+            >
+              {translate("nav.companyGroup")}
+              <ChevronDown size={13} aria-hidden="true" />
+            </button>
+            <ul className="company-menu-list" id={companiesMenuId} hidden={!companiesOpen}>
+              {companies.map((company) => (
+                <li key={company.slug}>
+                  <a
+                    href={companyHref(locale, company.slug)}
+                    aria-current={companySlug === company.slug ? "page" : undefined}
+                  >
+                    {company.name[locale]}
+                  </a>
+                </li>
+              ))}
+              <li className="company-menu-overview">
+                <a href={companyHref(locale)} aria-current={companyGroup && !companySlug ? "page" : undefined}>
+                  {translate("nav.allCompanies")}
+                </a>
+              </li>
+            </ul>
+          </div>
           <a href={`${homeHref}#contact`}>{translate("nav.getInTouch")}</a>
         </nav>
       </header>

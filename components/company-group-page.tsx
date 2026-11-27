@@ -1,23 +1,10 @@
 import Image from "next/image";
-import CompanyBoardSlide from "@/components/company-board-slide";
+import { companies, companyAssets as assetPath, companyDirectoryPath, companyHref } from "@/data/companies";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { LocaleProvider, type Locale } from "@/i18n/provider";
 import "./company-group-page.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const assetPath = basePath + "/images/company-group";
-const pages = [
-  ["جلد معرفی مدیران عامل و اعضای هیئت‌مدیره", "CEO and board member introduction cover"],
-  ["نمودار شرکت‌ها و کسب‌وکارهای گروه ارتباط فردا", "Ertebat Farda group companies and businesses diagram"],
-  ["مدیران ارتباط فردا", "Ertebat Farda leadership"],
-  ["مدیران بهین فردا", "Behin Farda leadership"],
-  ["مدیران پیپا", "Pipa leadership"],
-  ["مدیران فینووا", "Finnova leadership"],
-  ["مدیران فینوتک", "Finnotech leadership"],
-  ["مدیران بامداد روشن", "Bamdad Roshan leadership"],
-  ["مدیران سگال", "Segal leadership"],
-] as const;
-
 const orbits = [
   {
     name: "inner",
@@ -78,8 +65,8 @@ function CompanyOrbits() {
 }
 
 export const companyGroupTitles = {
-  fa: "هیئت‌مدیره و شرکت‌های گروه ارتباط فردا",
-  en: "Ertebat Farda Group and Board Members",
+  fa: "شرکت‌های ما",
+  en: "Our Companies",
 };
 
 export default function CompanyGroupPage({ locale }: { locale: Locale }) {
@@ -88,43 +75,40 @@ export default function CompanyGroupPage({ locale }: { locale: Locale }) {
 
   return (
     <LocaleProvider locale={locale}>
-      <SiteHeader homeHref={homeHref} languagePath="/company-group/" companyGroup />
+      <SiteHeader homeHref={homeHref} languagePath={companyDirectoryPath} companyGroup />
       <main className="container company-group-document">
         <h1>{companyGroupTitles[locale]}</h1>
-        {pages.map(([fa, en], index) => {
-          const page = index + 1;
-          const src = `${assetPath}/page-${page}.webp`;
-          const alt = english ? en : fa;
-
-          if (page >= 3) return <CompanyBoardSlide key={fa} page={page} src={src} alt={alt} rtl={!english} />;
-
-          const slide = (
+        <ul className="company-directory" role="list">
+          {companies.map((company) => (
+            <li key={company.slug}>
+              <a href={companyHref(locale, company.slug)}>
+                <span
+                  className="company-directory-logo"
+                  style={{ maskImage: `url("${assetPath}/${company.logo}.webp")` }}
+                  aria-hidden="true"
+                />
+                <span>{company.name[locale]}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="company-group-diagram">
+          <label className="company-group-control">
+            <input type="checkbox" />
+            {english ? "Show the diagram without motion" : "نمایش ثابت نمودار"}
+          </label>
+          <div className="company-group-scene">
             <Image
               className="company-group-slide"
-              src={src}
+              src={assetPath + "/page-2.webp"}
               width={1600}
               height={900}
-              alt={alt}
-              loading={index === 0 ? "eager" : "lazy"}
+              alt={english ? "Ertebat Farda group companies and businesses diagram" : "نمودار شرکت‌ها و کسب‌وکارهای گروه ارتباط فردا"}
               unoptimized
             />
-          );
-
-          if (index !== 1) return <div key={fa}>{slide}</div>;
-
-          return (
-            <div className="company-group-diagram" key={fa}>
-              <label className="company-group-control">
-                <input type="checkbox" />
-                {english ? "Show the diagram without motion" : "نمایش ثابت نمودار"}
-              </label>
-              <div className="company-group-scene">
-                {slide}
-                <CompanyOrbits />
-              </div>
-            </div>
-          );
-        })}
+            <CompanyOrbits />
+          </div>
+        </div>
       </main>
       <SiteFooter homeHref={homeHref} />
     </LocaleProvider>
