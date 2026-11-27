@@ -17,6 +17,65 @@ const pages = [
   ["مدیران سگال", "Segal leadership"],
 ] as const;
 
+const orbits = [
+  {
+    name: "inner",
+    companies: [
+      "behin-farda", "finnotech", "pipa", "segal", "infono",
+      "bamdad-roshan", "damavand", "finnova", "matn-dar", "cash-management",
+    ],
+  },
+  {
+    name: "outer",
+    companies: [
+      "iran-card", "hamrah-card", "uniti", "ghesta", "otaghak", "shoroo",
+      "baghdasht", "nedaye-pardakht", "gateway", "pos", "bank-cards", "atm",
+      "paydar", "tavanak",
+    ],
+  },
+] as const;
+
+function CompanyOrbits() {
+  return (
+    <div className="company-group-animation" aria-hidden="true">
+      <div className="company-group-system">
+        {orbits.map(({ name, companies }) => (
+          <div className={`company-group-track company-group-track-${name}`} key={name}>
+            {companies.map((company, index) => (
+              <div
+                className="company-group-position"
+                key={company}
+                style={{ rotate: `${index / companies.length}turn` }}
+              >
+                <div
+                  className="company-group-planet"
+                  style={{ rotate: `${-index / companies.length}turn` }}
+                >
+                  <Image
+                    className="company-group-mark"
+                    src={`${assetPath}/planet-${company}.webp`}
+                    alt=""
+                    fill
+                    unoptimized
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+        <Image
+          className="company-group-center"
+          src={assetPath + "/orbit-center.webp"}
+          width={220}
+          height={76}
+          alt=""
+          unoptimized
+        />
+      </div>
+    </div>
+  );
+}
+
 export const companyGroupTitles = {
   fa: "هیئت‌مدیره و شرکت‌های گروه ارتباط فردا",
   en: "Ertebat Farda Group and Board Members",
@@ -54,24 +113,7 @@ export default function CompanyGroupPage({ locale }: { locale: Locale }) {
               </label>
               <div className="company-group-scene">
                 {slide}
-                <div className="company-group-animation" aria-hidden="true">
-                  <Image
-                    className="company-group-orbit"
-                    src={assetPath + "/orbit.webp"}
-                    width={1600}
-                    height={900}
-                    alt=""
-                    unoptimized
-                  />
-                  <Image
-                    className="company-group-center"
-                    src={assetPath + "/orbit-center.webp"}
-                    width={220}
-                    height={76}
-                    alt=""
-                    unoptimized
-                  />
-                </div>
+                <CompanyOrbits />
               </div>
             </div>
           );
