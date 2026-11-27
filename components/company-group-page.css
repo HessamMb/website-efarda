@@ -40,23 +40,33 @@
 }
 
 .company-group-animation {
+  --orbit-tilt: 30deg;
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  background: #05855e;
+  perspective: clamp(22rem, 65vw, 55rem);
+  background: radial-gradient(ellipse at 50% 45%, #138d6b 0%, #087455 54%, #07523e 100%);
+}
+
+.company-group-system,
+.company-group-track,
+.company-group-position,
+.company-group-planet {
+  transform-style: preserve-3d;
 }
 
 .company-group-system {
   position: relative;
   width: min(54%, 36rem);
   aspect-ratio: 1;
+  transform: rotateX(var(--orbit-tilt));
 }
 
 .company-group-track {
   position: absolute;
   inset: var(--track-inset);
-  border: 1px solid rgb(255 255 255 / 24%);
+  border: 1px solid rgb(201 255 231 / 31%);
   border-radius: 50%;
   animation: company-group-revolve var(--orbit-period) linear infinite;
 }
@@ -91,9 +101,8 @@
 
 .company-group-mark {
   object-fit: contain;
-  animation: company-group-revolve var(--orbit-period) linear infinite reverse;
-  opacity: 0.95;
-  filter: drop-shadow(0 0 3px #05855e);
+  animation: company-group-face-viewer var(--orbit-period) linear infinite reverse;
+  filter: drop-shadow(0 2px 3px rgb(2 44 31 / 48%));
 }
 
 .company-group-center {
@@ -103,6 +112,8 @@
   width: 25%;
   height: auto;
   translate: -50% -50%;
+  transform: rotateX(calc(-1 * var(--orbit-tilt)));
+  filter: drop-shadow(0 2px 5px rgb(2 44 31 / 55%));
 }
 
 .company-group-control:has(input:checked) + .company-group-scene .company-group-animation {
@@ -112,6 +123,16 @@
 @keyframes company-group-revolve {
   to {
     transform: rotate(1turn);
+  }
+}
+
+/* Cancel the orbital rotation and plane tilt so the lettering faces the viewer. */
+@keyframes company-group-face-viewer {
+  from {
+    transform: rotate(0turn) rotateX(calc(-1 * var(--orbit-tilt)));
+  }
+  to {
+    transform: rotate(1turn) rotateX(calc(-1 * var(--orbit-tilt)));
   }
 }
 
