@@ -130,7 +130,7 @@ export const newsPosts: NewsPost[] = [
         "The launch also introduced a connection to a wealth management platform. It gives customers a way to put cashback earned on purchases toward savings or investment.",
       ],
     },
-    images: [photo("iran-card-novin-unveiling", "لحظهٔ پرده‌برداری از ایران‌کارت نوین در نمایشگاه تراکنش", "The moment IranCard Novin was unveiled at the Iran Transaction exhibition")],
+    images: [photo("iran-card-novin-unveiling", "عکس گروهی کنار پوستر ایران‌کارت نوین در نمایشگاه تراکنش", "Group photo beside the IranCard Novin poster at the Iran Transaction exhibition")],
     sourceUrl: "https://negaheiraniannews.ir/رونمایی-از-ایران‌کارت-نوین-به-عنوان-نخستین-کارت-مولتی‌بانک-در-دوازدهمین-نمایشگاه-تراکنش-ایران",
     isSummary: true,
   },
